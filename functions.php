@@ -169,6 +169,9 @@ require get_template_directory() . '/inc/template-functions.php';
  */
 require get_template_directory() . '/inc/customizer.php';
 
+/** Recursos modulares de Bitácora XP: Bootstrap y cliente REST nativo. */
+require_once get_template_directory() . '/assets/assets.php';
+
 /**
  * Load Jetpack compatibility file.
  */
