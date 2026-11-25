@@ -35,3 +35,21 @@ function bitacora_xp_theme_pingback_header() {
 	}
 }
 add_action( 'wp_head', 'bitacora_xp_theme_pingback_header' );
+
+/**
+ * Usa cierres HTML5 en la cabecera y en los formularios de búsqueda de WordPress.
+ *
+ * @param string $html Fragmento generado por WordPress.
+ * @return string
+ */
+function bitacora_xp_theme_html5_tags( $html ) {
+	if ( false === strpos( $html, '/>' ) || ! property_exists( 'WP_HTML_Span', 'length' ) ) {
+		return $html;
+	}
+
+	require_once __DIR__ . '/class-bitacora-xp-html-tags.php';
+	$tags = new Bitacora_XP_HTML_Tags( $html );
+	return $tags->sin_barras_finales();
+}
+add_filter( 'get_search_form', 'bitacora_xp_theme_html5_tags' );
+add_filter( 'render_block_core/search', 'bitacora_xp_theme_html5_tags' );
