@@ -73,6 +73,36 @@ function bitacora_xp_cargar_js() {
             (string) filemtime( get_template_directory() . $ruta_carga ),
             true
         );
+
+        // Cada módulo futuro de la SPA declarará como dependencia el handle de la librería que utilice.
+        wp_enqueue_script(
+            'bitacora-xp-phaser',
+            'https://cdn.jsdelivr.net/npm/phaser@4.2.1/dist/phaser.min.js',
+            array(),
+            '4.2.1',
+            true
+        );
+        wp_enqueue_script(
+            'bitacora-xp-gsap',
+            'https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/gsap.min.js',
+            array(),
+            '3.15.1',
+            true
+        );
+        wp_enqueue_script(
+            'bitacora-xp-howler',
+            'https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js',
+            array(),
+            '2.2.4',
+            true
+        );
+        wp_enqueue_script(
+            'bitacora-xp-dompurify',
+            'https://cdn.jsdelivr.net/npm/dompurify@3.5.0/dist/purify.min.js',
+            array(),
+            '3.5.0',
+            true
+        );
     }
 }
 add_action( 'wp_enqueue_scripts', 'bitacora_xp_cargar_js' );
