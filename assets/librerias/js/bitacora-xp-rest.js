@@ -84,6 +84,13 @@
     return mundo;
   }
 
+  // Carga las 14 entradas con una sola solicitud HTTP a WordPress.
+  // Se usa para verificar el flujo CMS en Network y precargar el diario.
+  async function obtenerTodosHitos() {
+    const rows = await fetchJSON(requestUrl(configured('postsUrl'), { per_page: 100 }));
+    return rows.map(normalizarHito).sort((a, b) => a.codigo.localeCompare(b.codigo));
+  }
+
   async function obtenerHito(codigo) {
     const slug = String(codigo || '').trim();
     if (!/^(gv-0[1-6]|sn-0[1-5]|ev-0[1-3])$/.test(slug)) {
@@ -134,8 +141,9 @@
     cache.clear();
   }
 
-  // El endpoint de extras se añadirá cuando se configure la BD independiente.
+  // La API externa dispone de un cliente separado: BitacoraXPDescubrimientos.
   global.BitacoraXPData = Object.freeze({
+    obtenerTodosHitos,
     obtenerHito,
     obtenerHitosMundo,
     obtenerPaginaMundo,
