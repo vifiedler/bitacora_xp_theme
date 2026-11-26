@@ -44,17 +44,15 @@
 
     this.add.image(fondo.x, fondo.y, 'fondo').setOrigin(0);
     for (const capa of mapa.layers) {
-      if (capa.name === 'colisiones') {
-        for (const objeto of capa.objects) {
-          // Vicente pisa dos tiles de ancho por uno de alto. Su origen está entre los pies.
-          obstaculos.push(new Phaser.Geom.Rectangle(
-            objeto.x - mapa.tilewidth, objeto.y,
-            objeto.width + 2 * mapa.tilewidth, objeto.height + mapa.tileheight
-          ));
-        }
-      }
-      if (!capasVisibles.includes(capa.name)) continue;
+      const esInteractiva = capasVisibles.includes(capa.name);
+      if (!esInteractiva && capa.name !== 'colisiones') continue;
       for (const objeto of capa.objects) {
+        // El origen de Vicente está entre los pies. Su pisada mide dos tiles por uno.
+        obstaculos.push(new Phaser.Geom.Rectangle(
+          objeto.x - mapa.tilewidth, objeto.y,
+          objeto.width + 2 * mapa.tilewidth, objeto.height + mapa.tileheight
+        ));
+        if (!esInteractiva) continue;
         const textura = config.sprites[objeto.name];
         if (!textura) {
           console.error('[Bitácora XP] Falta la asignación de sprite para', objeto.name);
