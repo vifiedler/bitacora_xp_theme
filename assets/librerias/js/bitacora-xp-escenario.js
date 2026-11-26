@@ -6,8 +6,11 @@
 
   const config = window.BitacoraXPEscenario;
   const capasVisibles = ['hitos', 'descubrimientos', 'npc'];
+  const interactivos = [];
   let fondo;
   let errorCarga = false;
+  let vicente;
+  let teclas;
 
   function preload() {
     this.load.on('loaderror', (archivo) => {
@@ -19,7 +22,10 @@
       if (fondo) this.load.image('fondo', new URL(fondo.image, config.mapa).href);
     });
     this.load.json('mapa', config.mapa);
-    this.load.image('vicente_sur', config.recursos + 'sprites/personajes/vicente_sur.png');
+    for (const direccion of ['sur', 'norte', 'este', 'oeste']) {
+      const clave = 'vicente_' + direccion;
+      this.load.image(clave, config.recursos + 'sprites/personajes/' + clave + '.png');
+    }
     for (const ruta of new Set(Object.values(config.sprites))) {
       this.load.image(ruta, config.recursos + ruta);
     }
@@ -35,8 +41,6 @@
       return;
     }
 
-    // Al recortar los laterales en móvil, mantener visible la posición inicial de Vicente.
-    contenedor.style.setProperty('--spawn-x', (inicio.x / (mapa.width * mapa.tilewidth) * 100) + '%');
     this.add.image(fondo.x, fondo.y, 'fondo').setOrigin(0);
     for (const capa of mapa.layers) {
       if (!capasVisibles.includes(capa.name)) continue;
@@ -47,9 +51,69 @@
           continue;
         }
         this.add.image(objeto.x, objeto.y, textura).setOrigin(0).setName(objeto.name);
+        interactivos.push({ capa: capa.name, objeto });
       }
     }
-    this.add.image(inicio.x, inicio.y, 'vicente_sur').setOrigin(0.5, 1).setName('vicente_sur');
+    vicente = this.add.image(inicio.x, inicio.y, 'vicente_sur').setOrigin(0.5, 1).setName('vicente');
+    seguirAVicente();
+    const teclado = this.input.keyboard;
+    teclas = teclado.addKeys('W,A,S,D,UP,LEFT,DOWN,RIGHT');
+    const reiniciarTeclas = () => teclado.resetKeys();
+    contenedor.addEventListener('blur', reiniciarTeclas);
+    contenedor.addEventListener('keydown', accionar);
+    this.events.once('shutdown', () => {
+      contenedor.removeEventListener('blur', reiniciarTeclas);
+      contenedor.removeEventListener('keydown', accionar);
+      interactivos.length = 0;
+      vicente = null;
+    });
+    if (document.activeElement === document.body) contenedor.focus({ preventScroll: true });
+  }
+
+  function seguirAVicente() {
+    // Distribuye el recorte de ENVELOP según la posición, incluso en pantallas verticales.
+    contenedor.style.setProperty('--vicente-x', (100 * (vicente.x - vicente.width / 2) / (fondo.imagewidth - vicente.width)) + '%');
+    contenedor.style.setProperty('--vicente-y', (100 * (vicente.y - vicente.height) / (fondo.imageheight - vicente.height)) + '%');
+  }
+
+  function update(tiempo, delta) {
+    if (!vicente || document.activeElement !== contenedor) return;
+    const dx = Number(teclas.D.isDown || teclas.RIGHT.isDown) - Number(teclas.A.isDown || teclas.LEFT.isDown);
+    const dy = Number(teclas.S.isDown || teclas.DOWN.isDown) - Number(teclas.W.isDown || teclas.UP.isDown);
+    if (!dx && !dy) return;
+
+    const paso = 210 * Math.min(delta, 50) / 1000 / Math.hypot(dx, dy);
+    const direccion = dx ? (dx > 0 ? 'este' : 'oeste') : (dy > 0 ? 'sur' : 'norte');
+    vicente.setTexture('vicente_' + direccion);
+    vicente.x = Phaser.Math.Clamp(vicente.x + dx * paso, vicente.width / 2, fondo.imagewidth - vicente.width / 2);
+    vicente.y = Phaser.Math.Clamp(vicente.y + dy * paso, vicente.height, fondo.imageheight);
+    seguirAVicente();
+  }
+
+  function accionar(evento) {
+    if (evento.altKey || evento.metaKey || evento.ctrlKey) return;
+    const tecla = evento.key.toLowerCase();
+    if (!['e', 'enter', 'j'].includes(tecla)) return;
+    evento.preventDefault();
+    if (evento.repeat) return;
+    if (tecla === 'j') {
+      window.BitacoraXPLectura.abrirDiario();
+      return;
+    }
+
+    let cercano;
+    let distanciaMinima = 36;
+    for (const candidato of interactivos) {
+      const { x, y, width, height } = candidato.objeto;
+      const dx = vicente.x - Phaser.Math.Clamp(vicente.x, x, x + width);
+      const dy = vicente.y - Phaser.Math.Clamp(vicente.y, y, y + height);
+      const distancia = Math.hypot(dx, dy);
+      if (distancia <= distanciaMinima) {
+        cercano = candidato;
+        distanciaMinima = distancia;
+      }
+    }
+    if (cercano) window.BitacoraXPLectura.interactuar(cercano.capa, cercano.objeto.name, config.mundo);
   }
 
   new Phaser.Game({
@@ -61,8 +125,8 @@
     antialias: false,
     roundPixels: false,
     audio: { noAudio: true },
-    input: { keyboard: false, mouse: false, touch: false, gamepad: false },
+    input: { keyboard: { target: contenedor }, mouse: false, touch: false, gamepad: false },
     scale: { mode: Phaser.Scale.ENVELOP, expandParent: false },
-    scene: { preload, create },
+    scene: { preload, create, update },
   });
 }());

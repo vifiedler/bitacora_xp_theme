@@ -1,6 +1,6 @@
 <?php
 /**
- * Librerías de front-end, clientes AJAX y escena estática de la portada.
+ * Librerías de front-end, clientes AJAX y escena de la portada.
  * @package bitacora_xp_theme
  */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -98,11 +98,19 @@ function bitacora_xp_cargar_js() {
             '4.2.1',
             true
         );
+        $ruta_lectura = '/assets/librerias/js/bitacora-xp-lectura.js';
+        wp_enqueue_script(
+            'bitacora-xp-lectura',
+            get_template_directory_uri() . $ruta_lectura,
+            array( 'bitacora-xp-rest', 'bitacora-xp-descubrimientos', 'bitacora-xp-dompurify' ),
+            (string) filemtime( get_template_directory() . $ruta_lectura ),
+            true
+        );
         $ruta_escenario = '/assets/librerias/js/bitacora-xp-escenario.js';
         wp_enqueue_script(
             'bitacora-xp-escenario',
             get_template_directory_uri() . $ruta_escenario,
-            array( 'bitacora-xp-phaser' ),
+            array( 'bitacora-xp-phaser', 'bitacora-xp-lectura' ),
             (string) filemtime( get_template_directory() . $ruta_escenario ),
             true
         );
@@ -113,6 +121,7 @@ function bitacora_xp_cargar_js() {
                     'mapa'     => get_template_directory_uri() . '/assets/librerias/mapas/GachaVault.tmj',
                     'recursos' => get_template_directory_uri() . '/assets/librerias/recursos/',
                     'spawn'    => 'spawn_gv_inicio',
+                    'mundo'    => 'gachavault',
                     'sprites'  => bitacora_xp_sprites_del_mundo( 'gachavault' ),
                 ),
                 JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
