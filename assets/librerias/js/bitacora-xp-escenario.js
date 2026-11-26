@@ -55,7 +55,6 @@
       }
     }
     vicente = this.add.image(inicio.x, inicio.y, 'vicente_sur').setOrigin(0.5, 1).setName('vicente');
-    seguirAVicente();
     const teclado = this.input.keyboard;
     teclas = teclado.addKeys('W,A,S,D,UP,LEFT,DOWN,RIGHT');
     const reiniciarTeclas = () => teclado.resetKeys();
@@ -70,12 +69,6 @@
     if (document.activeElement === document.body) contenedor.focus({ preventScroll: true });
   }
 
-  function seguirAVicente() {
-    // Distribuye el recorte de ENVELOP según la posición, incluso en pantallas verticales.
-    contenedor.style.setProperty('--vicente-x', (100 * (vicente.x - vicente.width / 2) / (fondo.imagewidth - vicente.width)) + '%');
-    contenedor.style.setProperty('--vicente-y', (100 * (vicente.y - vicente.height) / (fondo.imageheight - vicente.height)) + '%');
-  }
-
   function update(tiempo, delta) {
     if (!vicente || document.activeElement !== contenedor) return;
     const dx = Number(teclas.D.isDown || teclas.RIGHT.isDown) - Number(teclas.A.isDown || teclas.LEFT.isDown);
@@ -87,7 +80,6 @@
     vicente.setTexture('vicente_' + direccion);
     vicente.x = Phaser.Math.Clamp(vicente.x + dx * paso, vicente.width / 2, fondo.imagewidth - vicente.width / 2);
     vicente.y = Phaser.Math.Clamp(vicente.y + dy * paso, vicente.height, fondo.imageheight);
-    seguirAVicente();
   }
 
   function accionar(evento) {
@@ -126,7 +118,8 @@
     roundPixels: false,
     audio: { noAudio: true },
     input: { keyboard: { target: contenedor }, mouse: false, touch: false, gamepad: false },
-    scale: { mode: Phaser.Scale.ENVELOP, expandParent: false },
+    // Phaser conserva las coordenadas de Tiled. El CSS ajusta el lienzo completo a la ventana.
+    scale: { mode: Phaser.Scale.NONE, expandParent: false },
     scene: { preload, create, update },
   });
 }());
