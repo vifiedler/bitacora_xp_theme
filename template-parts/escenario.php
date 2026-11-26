@@ -10,6 +10,6 @@
 	<form method="dialog" class="float-end">
 		<button class="btn-close" aria-label="<?php esc_attr_e( 'Cerrar', 'bitacora_xp_theme' ); ?>"></button>
 	</form>
-	<h2 id="bitacora-xp-titulo" class="h4 me-5"></h2>
+	<h2 id="bitacora-xp-titulo" class="h4 me-5 d-none"><?php echo get_the_title();?></h2>
 	<div class="contenido-lectura" aria-live="polite"></div>
 </dialog>
