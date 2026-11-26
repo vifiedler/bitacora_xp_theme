@@ -7,6 +7,7 @@
   const config = window.BitacoraXPEscenario;
   const capasVisibles = ['hitos', 'descubrimientos', 'npc'];
   const interactivos = [];
+  const obstaculos = [];
   let fondo;
   let errorCarga = false;
   let vicente;
@@ -43,6 +44,15 @@
 
     this.add.image(fondo.x, fondo.y, 'fondo').setOrigin(0);
     for (const capa of mapa.layers) {
+      if (capa.name === 'colisiones') {
+        for (const objeto of capa.objects) {
+          // Vicente pisa dos tiles de ancho por uno de alto. Su origen está entre los pies.
+          obstaculos.push(new Phaser.Geom.Rectangle(
+            objeto.x - mapa.tilewidth, objeto.y,
+            objeto.width + 2 * mapa.tilewidth, objeto.height + mapa.tileheight
+          ));
+        }
+      }
       if (!capasVisibles.includes(capa.name)) continue;
       for (const objeto of capa.objects) {
         const textura = config.sprites[objeto.name];
@@ -64,9 +74,25 @@
       contenedor.removeEventListener('blur', reiniciarTeclas);
       contenedor.removeEventListener('keydown', accionar);
       interactivos.length = 0;
+      obstaculos.length = 0;
       vicente = null;
     });
     if (document.activeElement === document.body) contenedor.focus({ preventScroll: true });
+  }
+
+  // Recorta el recorrido al primer borde que cruce. El otro eje puede seguir avanzando.
+  function limitarPorColision(desde, hasta, transversal, horizontal) {
+    for (const zona of obstaculos) {
+      const fuera = horizontal
+        ? transversal <= zona.top || transversal >= zona.bottom
+        : transversal <= zona.left || transversal >= zona.right;
+      if (fuera) continue;
+      const inicio = horizontal ? zona.left : zona.top;
+      const fin = horizontal ? zona.right : zona.bottom;
+      if (desde <= inicio && hasta > inicio) hasta = inicio;
+      if (desde >= fin && hasta < fin) hasta = fin;
+    }
+    return hasta;
   }
 
   function update(tiempo, delta) {
@@ -78,8 +104,10 @@
     const paso = 210 * Math.min(delta, 50) / 1000 / Math.hypot(dx, dy);
     const direccion = dx ? (dx > 0 ? 'este' : 'oeste') : (dy > 0 ? 'sur' : 'norte');
     vicente.setTexture('vicente_' + direccion);
-    vicente.x = Phaser.Math.Clamp(vicente.x + dx * paso, vicente.width / 2, fondo.imagewidth - vicente.width / 2);
-    vicente.y = Phaser.Math.Clamp(vicente.y + dy * paso, vicente.height, fondo.imageheight);
+    const x = Phaser.Math.Clamp(vicente.x + dx * paso, vicente.width / 2, fondo.imagewidth - vicente.width / 2);
+    const y = Phaser.Math.Clamp(vicente.y + dy * paso, vicente.height, fondo.imageheight);
+    vicente.x = limitarPorColision(vicente.x, x, vicente.y, true);
+    vicente.y = limitarPorColision(vicente.y, y, vicente.x, false);
   }
 
   function accionar(evento) {
@@ -118,8 +146,8 @@
     roundPixels: false,
     audio: { noAudio: true },
     input: { keyboard: { target: contenedor }, mouse: false, touch: false, gamepad: false },
-    // Phaser conserva las coordenadas de Tiled. El CSS ajusta el lienzo completo a la ventana.
-    scale: { mode: Phaser.Scale.NONE, expandParent: false },
+    // Escala el mapa y sus sprites juntos, manteniendo visible el escenario completo.
+    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, expandParent: false },
     scene: { preload, create, update },
   });
 }());
