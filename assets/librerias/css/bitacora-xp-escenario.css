@@ -1,0 +1,9 @@
+#bitacora-xp-escenario {
+	aspect-ratio: 8 / 5;
+	max-width: min(1440px, 160vh);
+}
+
+#bitacora-xp-escenario canvas {
+	display: block;
+	image-rendering: pixelated;
+}

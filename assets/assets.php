@@ -10,3 +10,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once get_template_directory() . '/assets/includes/css-functions.php';
 require_once get_template_directory() . '/assets/includes/js-functions.php';
+require_once get_template_directory() . '/assets/includes/menu-functions.php';
+require_once get_template_directory() . '/assets/includes/widgets-functions.php';

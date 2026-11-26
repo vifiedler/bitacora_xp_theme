@@ -1,10 +1,26 @@
 <?php
 /**
- * Librerías de front-end y cliente REST sin renderizado ni lógica de Phaser.
+ * Librerías de front-end, clientes AJAX y escena estática de la portada.
  * @package bitacora_xp_theme
  */
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
+}
+
+/** Relaciona los nombres de Tiled con los PNG del inventario de este mundo. */
+function bitacora_xp_sprites_del_mundo( $mundo ) {
+    $archivo = fopen( get_template_directory() . '/assets/librerias/recursos/sprites/asignaciones_objetos.csv', 'r' );
+    $sprites = array();
+    if ( false !== $archivo ) {
+        fgetcsv( $archivo, 0, ',', '"', '\\' ); // Encabezado del inventario.
+        while ( false !== ( $fila = fgetcsv( $archivo, 0, ',', '"', '\\' ) ) ) {
+            if ( $mundo === $fila[0] ) {
+                $sprites[ $fila[2] ] = $fila[4];
+            }
+        }
+        fclose( $archivo );
+    }
+    return $sprites;
 }
 
 function bitacora_xp_cargar_js() {
@@ -81,6 +97,27 @@ function bitacora_xp_cargar_js() {
             array(),
             '4.2.1',
             true
+        );
+        $ruta_escenario = '/assets/librerias/js/bitacora-xp-escenario.js';
+        wp_enqueue_script(
+            'bitacora-xp-escenario',
+            get_template_directory_uri() . $ruta_escenario,
+            array( 'bitacora-xp-phaser' ),
+            (string) filemtime( get_template_directory() . $ruta_escenario ),
+            true
+        );
+        wp_add_inline_script(
+            'bitacora-xp-escenario',
+            'window.BitacoraXPEscenario = ' . wp_json_encode(
+                array(
+                    'mapa'     => get_template_directory_uri() . '/assets/librerias/mapas/GachaVault.tmj',
+                    'recursos' => get_template_directory_uri() . '/assets/librerias/recursos/',
+                    'spawn'    => 'spawn_gv_inicio',
+                    'sprites'  => bitacora_xp_sprites_del_mundo( 'gachavault' ),
+                ),
+                JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+            ) . ';',
+            'before'
         );
         wp_enqueue_script(
             'bitacora-xp-gsap',

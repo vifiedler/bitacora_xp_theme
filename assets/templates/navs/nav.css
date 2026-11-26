@@ -1,0 +1,10 @@
+#masthead .navbar .dropdown-toggle::after {
+    display: none;
+}
+
+#masthead .nav-link.dropdown-toggle.show .bi.bi-chevron-down::before {
+    transform: rotate(180deg);
+  }
+#masthead .navbar-expand-lg .navbar-collapse {
+    justify-content: space-around;
+  }
