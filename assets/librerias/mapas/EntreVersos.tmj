@@ -1,0 +1,520 @@
+{
+  "compressionlevel": -1,
+  "height": 75,
+  "infinite": false,
+  "nextlayerid": 10,
+  "nextobjectid": 33,
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "tiledversion": "1.12.2",
+  "tileheight": 12,
+  "tilesets": [],
+  "tilewidth": 12,
+  "type": "map",
+  "version": "1.10",
+  "width": 120,
+  "layers": [
+    {
+      "id": 3,
+      "name": "fondo",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "image": "../recursos/fondos/fondo_entre_versos.png",
+      "imageheight": 900,
+      "imagewidth": 1440,
+      "locked": true
+    },
+    {
+      "id": 4,
+      "name": "colisiones",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 152,
+          "id": 1,
+          "name": "colision_archivo_poetas",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 244,
+          "x": 410,
+          "y": 72
+        },
+        {
+          "height": 152,
+          "id": 2,
+          "name": "colision_taller_editorial",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 244,
+          "x": 832,
+          "y": 80
+        },
+        {
+          "height": 66,
+          "id": 3,
+          "name": "colision_estanteria_01",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 58,
+          "y": 641
+        },
+        {
+          "height": 66,
+          "id": 4,
+          "name": "colision_estanteria_02",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 131,
+          "y": 641
+        },
+        {
+          "height": 66,
+          "id": 5,
+          "name": "colision_estanteria_03",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 204,
+          "y": 641
+        },
+        {
+          "height": 66,
+          "id": 6,
+          "name": "colision_estanteria_04",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 44,
+          "y": 756
+        },
+        {
+          "height": 66,
+          "id": 7,
+          "name": "colision_estanteria_05",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 117,
+          "y": 756
+        },
+        {
+          "height": 66,
+          "id": 8,
+          "name": "colision_estanteria_06",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 1172,
+          "y": 649
+        },
+        {
+          "height": 66,
+          "id": 9,
+          "name": "colision_estanteria_07",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 1245,
+          "y": 649
+        },
+        {
+          "height": 66,
+          "id": 10,
+          "name": "colision_estanteria_08",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 1318,
+          "y": 649
+        },
+        {
+          "height": 66,
+          "id": 11,
+          "name": "colision_estanteria_09",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 1245,
+          "y": 763
+        },
+        {
+          "height": 66,
+          "id": 12,
+          "name": "colision_estanteria_10",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 1318,
+          "y": 763
+        },
+        {
+          "height": 66,
+          "id": 13,
+          "name": "colision_estanteria_11",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56,
+          "x": 1286,
+          "y": 175
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "hitos",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 57,
+          "id": 14,
+          "name": "ev-01",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 404,
+          "y": 325
+        },
+        {
+          "height": 57,
+          "id": 15,
+          "name": "ev-02",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 714,
+          "y": 207
+        },
+        {
+          "height": 57,
+          "id": 16,
+          "name": "ev-03",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 1039,
+          "y": 325
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "descubrimientos",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 48,
+          "id": 17,
+          "name": "extra_ev_01",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 273,
+          "y": 204
+        },
+        {
+          "height": 57,
+          "id": 18,
+          "name": "extra_ev_02",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 779,
+          "y": 198
+        },
+        {
+          "height": 57,
+          "id": 19,
+          "name": "extra_ev_03",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 1162,
+          "y": 230
+        },
+        {
+          "height": 57,
+          "id": 20,
+          "name": "extra_ev_04",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 195,
+          "y": 538
+        },
+        {
+          "height": 48,
+          "id": 21,
+          "name": "extra_ev_05",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 1129,
+          "y": 544
+        },
+        {
+          "height": 57,
+          "id": 22,
+          "name": "extra_ev_06",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 438,
+          "y": 718
+        },
+        {
+          "height": 48,
+          "id": 23,
+          "name": "extra_ev_07",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 912,
+          "y": 729
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "npc",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 66,
+          "id": 24,
+          "name": "npc_ariana_cano",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 332,
+          "y": 205
+        },
+        {
+          "height": 66,
+          "id": 25,
+          "name": "npc_ignacio_palma",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 840,
+          "y": 246
+        },
+        {
+          "height": 66,
+          "id": 26,
+          "name": "npc_benjamin_palma",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 995,
+          "y": 690
+        },
+        {
+          "height": 66,
+          "id": 27,
+          "name": "npc_luis_felipe",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 48,
+          "x": 795,
+          "y": 725
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "salidas",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 129,
+          "id": 28,
+          "name": "salida_ev_sinapsis",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 60,
+          "x": 0,
+          "y": 390,
+          "properties": [
+            {
+              "name": "destino",
+              "type": "string",
+              "value": "sinapsis"
+            },
+            {
+              "name": "spawn_destino",
+              "type": "string",
+              "value": "spawn_sinapsis_desde_ev"
+            }
+          ]
+        },
+        {
+          "height": 50,
+          "id": 29,
+          "name": "salida_ev_plaza",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 110,
+          "x": 660,
+          "y": 850,
+          "properties": [
+            {
+              "name": "destino",
+              "type": "string",
+              "value": "plaza_central"
+            },
+            {
+              "name": "spawn_destino",
+              "type": "string",
+              "value": "spawn_plaza_desde_ev"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "spawns",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": false,
+      "objects": [
+        {
+          "height": 0,
+          "id": 30,
+          "name": "spawn_ev_inicio",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 428,
+          "y": 455
+        },
+        {
+          "height": 0,
+          "id": 31,
+          "name": "spawn_ev_desde_plaza",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 720,
+          "y": 760
+        },
+        {
+          "height": 0,
+          "id": 32,
+          "name": "spawn_ev_desde_sinapsis",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 160,
+          "y": 455
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,578 @@
+{
+  "compressionlevel": -1,
+  "height": 75,
+  "infinite": false,
+  "nextlayerid": 7,
+  "nextobjectid": 40,
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "tiledversion": "1.12.2",
+  "tileheight": 12,
+  "tilesets": [],
+  "tilewidth": 12,
+  "type": "map",
+  "version": "1.10",
+  "width": 120,
+  "layers": [
+    {
+      "id": 3,
+      "name": "fondo",
+      "opacity": 1,
+      "type": "imagelayer",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "image": "../recursos/fondos/fondo_plaza_central.png",
+      "imageheight": 900,
+      "imagewidth": 1440,
+      "locked": true
+    },
+    {
+      "id": 4,
+      "name": "colisiones",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 152,
+          "id": 1,
+          "name": "colision_aulas",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 244,
+          "x": 316,
+          "y": 114
+        },
+        {
+          "height": 152,
+          "id": 2,
+          "name": "colision_biblioteca",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 244,
+          "x": 923,
+          "y": 118
+        },
+        {
+          "height": 18,
+          "id": 3,
+          "name": "colision_roble_01",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 52,
+          "y": 289
+        },
+        {
+          "height": 18,
+          "id": 4,
+          "name": "colision_roble_02",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 108,
+          "y": 300
+        },
+        {
+          "height": 18,
+          "id": 5,
+          "name": "colision_roble_03",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 170,
+          "y": 290
+        },
+        {
+          "height": 18,
+          "id": 6,
+          "name": "colision_roble_04",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 229,
+          "y": 300
+        },
+        {
+          "height": 18,
+          "id": 7,
+          "name": "colision_roble_05",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1189,
+          "y": 296
+        },
+        {
+          "height": 18,
+          "id": 8,
+          "name": "colision_roble_06",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1249,
+          "y": 311
+        },
+        {
+          "height": 18,
+          "id": 9,
+          "name": "colision_roble_07",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1309,
+          "y": 297
+        },
+        {
+          "height": 18,
+          "id": 10,
+          "name": "colision_roble_08",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1367,
+          "y": 307
+        },
+        {
+          "height": 18,
+          "id": 11,
+          "name": "colision_roble_09",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 134,
+          "y": 713
+        },
+        {
+          "height": 18,
+          "id": 12,
+          "name": "colision_roble_10",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 194,
+          "y": 729
+        },
+        {
+          "height": 18,
+          "id": 13,
+          "name": "colision_roble_11",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 254,
+          "y": 711
+        },
+        {
+          "height": 18,
+          "id": 14,
+          "name": "colision_roble_12",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 318,
+          "y": 734
+        },
+        {
+          "height": 18,
+          "id": 15,
+          "name": "colision_roble_13",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 378,
+          "y": 712
+        },
+        {
+          "height": 18,
+          "id": 16,
+          "name": "colision_roble_14",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1022,
+          "y": 757
+        },
+        {
+          "height": 18,
+          "id": 17,
+          "name": "colision_roble_15",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1085,
+          "y": 770
+        },
+        {
+          "height": 18,
+          "id": 18,
+          "name": "colision_roble_16",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1145,
+          "y": 756
+        },
+        {
+          "height": 18,
+          "id": 19,
+          "name": "colision_roble_17",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1206,
+          "y": 770
+        },
+        {
+          "height": 18,
+          "id": 20,
+          "name": "colision_roble_18",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1267,
+          "y": 755
+        },
+        {
+          "height": 18,
+          "id": 21,
+          "name": "colision_roble_19",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1324,
+          "y": 767
+        },
+        {
+          "height": 18,
+          "id": 22,
+          "name": "colision_roble_20",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 59,
+          "y": 835
+        },
+        {
+          "height": 18,
+          "id": 23,
+          "name": "colision_roble_21",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 118,
+          "y": 844
+        },
+        {
+          "height": 18,
+          "id": 24,
+          "name": "colision_roble_22",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24,
+          "x": 1376,
+          "y": 776
+        },
+        {
+          "height": 96,
+          "id": 25,
+          "name": "colision_fuente",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 184,
+          "x": 628,
+          "y": 383
+        },
+        {
+          "height": 22,
+          "id": 26,
+          "name": "colision_tablon",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 80,
+          "x": 844,
+          "y": 590
+        },
+        {
+          "height": 22,
+          "id": 27,
+          "name": "colision_banco_oeste",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 80,
+          "x": 505,
+          "y": 622
+        },
+        {
+          "height": 22,
+          "id": 28,
+          "name": "colision_banco_este",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 80,
+          "x": 869,
+          "y": 313
+        },
+        {
+          "height": 25,
+          "id": 29,
+          "name": "colision_seto_noroeste",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 231,
+          "x": 27,
+          "y": 197
+        },
+        {
+          "height": 25,
+          "id": 30,
+          "name": "colision_seto_noreste",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 224,
+          "x": 1172,
+          "y": 204
+        },
+        {
+          "height": 25,
+          "id": 31,
+          "name": "colision_seto_suroeste",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 154,
+          "x": 73,
+          "y": 590
+        },
+        {
+          "height": 25,
+          "id": 32,
+          "name": "colision_seto_sureste",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 272,
+          "x": 1051,
+          "y": 595
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "salidas",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": true,
+      "objects": [
+        {
+          "height": 110,
+          "id": 33,
+          "name": "salida_plaza_gv",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 60,
+          "x": 0,
+          "y": 398,
+          "properties": [
+            {
+              "name": "destino",
+              "type": "string",
+              "value": "gachavault"
+            },
+            {
+              "name": "spawn_destino",
+              "type": "string",
+              "value": "spawn_gv_desde_plaza"
+            }
+          ]
+        },
+        {
+          "height": 65,
+          "id": 34,
+          "name": "salida_plaza_sinapsis",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 94,
+          "x": 673,
+          "y": 0,
+          "properties": [
+            {
+              "name": "destino",
+              "type": "string",
+              "value": "sinapsis"
+            },
+            {
+              "name": "spawn_destino",
+              "type": "string",
+              "value": "spawn_sinapsis_desde_plaza"
+            }
+          ]
+        },
+        {
+          "height": 110,
+          "id": 35,
+          "name": "salida_plaza_ev",
+          "opacity": 1,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 60,
+          "x": 1380,
+          "y": 398,
+          "properties": [
+            {
+              "name": "destino",
+              "type": "string",
+              "value": "entre_versos"
+            },
+            {
+              "name": "spawn_destino",
+              "type": "string",
+              "value": "spawn_ev_desde_plaza"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "spawns",
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "draworder": "topdown",
+      "locked": false,
+      "objects": [
+        {
+          "height": 0,
+          "id": 36,
+          "name": "spawn_plaza_inicio",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 720,
+          "y": 598
+        },
+        {
+          "height": 0,
+          "id": 37,
+          "name": "spawn_plaza_desde_gv",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 245,
+          "y": 451
+        },
+        {
+          "height": 0,
+          "id": 38,
+          "name": "spawn_plaza_desde_sinapsis",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 720,
+          "y": 176
+        },
+        {
+          "height": 0,
+          "id": 39,
+          "name": "spawn_plaza_desde_ev",
+          "opacity": 1,
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 1170,
+          "y": 451
+        }
+      ]
+    }
+  ]
+}

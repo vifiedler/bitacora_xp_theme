@@ -1,0 +1,287 @@
+{
+  "fuente": "Figma / JS Avanzado diseño / página 05 · EXPORTAR PARA TILED",
+  "version": "recursos estáticos 1x; sin animaciones",
+  "base": "assets/librerias/recursos/sprites",
+  "sprites": [
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/vicente_sur.png",
+      "nombre": "vicente_sur",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/vicente_norte.png",
+      "nombre": "vicente_norte",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/vicente_este.png",
+      "nombre": "vicente_este",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/vicente_oeste.png",
+      "nombre": "vicente_oeste",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_paz_gomez.png",
+      "nombre": "npc_paz_gomez",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_thiare_pincheira.png",
+      "nombre": "npc_thiare_pincheira",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_luis_felipe.png",
+      "nombre": "npc_luis_felipe",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_mikaela_carrasco.png",
+      "nombre": "npc_mikaela_carrasco",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_ignacio_palma.png",
+      "nombre": "npc_ignacio_palma",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_dannus_gallardo.png",
+      "nombre": "npc_dannus_gallardo",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_ariana_cano.png",
+      "nombre": "npc_ariana_cano",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/personajes/npc_benjamin_palma.png",
+      "nombre": "npc_benjamin_palma",
+      "ancho": 48,
+      "alto": 66,
+      "figma_atlas": "atlas_personajes.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_gachapon.png",
+      "nombre": "obj_gachapon",
+      "ancho": 64,
+      "alto": 64,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_terminal.png",
+      "nombre": "obj_terminal",
+      "ancho": 64,
+      "alto": 64,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_libro_abierto.png",
+      "nombre": "obj_libro_abierto",
+      "ancho": 48,
+      "alto": 48,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_polaroid.png",
+      "nombre": "obj_polaroid",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_apuntes.png",
+      "nombre": "obj_apuntes",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_capsula.png",
+      "nombre": "obj_capsula",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_ficha_tecnica.png",
+      "nombre": "obj_ficha_tecnica",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_circuito.png",
+      "nombre": "obj_circuito",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_disquete.png",
+      "nombre": "obj_disquete",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/objetos/obj_cuaderno.png",
+      "nombre": "obj_cuaderno",
+      "ancho": 48,
+      "alto": 57,
+      "figma_atlas": "atlas_objetos.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_fuente.png",
+      "nombre": "decor_fuente",
+      "ancho": 208,
+      "alto": 156,
+      "figma_atlas": "atlas_decoracion.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_roble.png",
+      "nombre": "decor_roble",
+      "ancho": 72,
+      "alto": 88,
+      "figma_atlas": "atlas_decoracion.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_cerezo.png",
+      "nombre": "decor_cerezo",
+      "ancho": 72,
+      "alto": 88,
+      "figma_atlas": "atlas_decoracion.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_servidor.png",
+      "nombre": "decor_servidor",
+      "ancho": 72,
+      "alto": 88,
+      "figma_atlas": "atlas_decoracion.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_estanteria.png",
+      "nombre": "decor_estanteria",
+      "ancho": 72,
+      "alto": 88,
+      "figma_atlas": "atlas_decoracion.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_tablon.png",
+      "nombre": "decor_tablon",
+      "ancho": 104,
+      "alto": 64,
+      "figma_atlas": "atlas_decoracion.png"
+    },
+    {
+      "archivo": "assets/librerias/recursos/sprites/decoracion_opcional/decor_banco.png",
+      "nombre": "decor_banco",
+      "ancho": 104,
+      "alto": 64,
+      "figma_atlas": "atlas_decoracion.png"
+    }
+  ],
+  "asignaciones": {
+    "gachavault": {
+      "hitos": [
+        "obj_gachapon",
+        "obj_gachapon",
+        "obj_gachapon",
+        "obj_gachapon",
+        "obj_gachapon",
+        "obj_gachapon"
+      ],
+      "descubrimientos": [
+        "obj_apuntes",
+        "obj_apuntes",
+        "obj_capsula",
+        "obj_capsula",
+        "obj_apuntes",
+        "obj_capsula",
+        "obj_capsula"
+      ],
+      "npc": [
+        "npc_paz_gomez",
+        "npc_thiare_pincheira",
+        "npc_luis_felipe"
+      ]
+    },
+    "sinapsis": {
+      "hitos": [
+        "obj_terminal",
+        "obj_terminal",
+        "obj_terminal",
+        "obj_terminal",
+        "obj_terminal"
+      ],
+      "descubrimientos": [
+        "obj_ficha_tecnica",
+        "obj_disquete",
+        "obj_circuito",
+        "obj_disquete",
+        "obj_ficha_tecnica",
+        "obj_circuito",
+        "obj_disquete"
+      ],
+      "npc": [
+        "npc_mikaela_carrasco",
+        "npc_ignacio_palma",
+        "npc_dannus_gallardo",
+        "npc_luis_felipe"
+      ]
+    },
+    "entre_versos": {
+      "hitos": [
+        "obj_polaroid",
+        "obj_polaroid",
+        "obj_polaroid"
+      ],
+      "descubrimientos": [
+        "obj_libro_abierto",
+        "obj_cuaderno",
+        "obj_cuaderno",
+        "obj_polaroid",
+        "obj_libro_abierto",
+        "obj_cuaderno",
+        "obj_libro_abierto"
+      ],
+      "npc": [
+        "npc_ariana_cano",
+        "npc_ignacio_palma",
+        "npc_benjamin_palma",
+        "npc_luis_felipe"
+      ]
+    },
+    "plaza_central": {
+      "hitos": [],
+      "descubrimientos": [],
+      "npc": []
+    }
+  }
+}
