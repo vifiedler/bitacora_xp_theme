@@ -9,7 +9,7 @@ get_header();
 ?>
 
 <main id="primary" class="site-main">
-	<?php get_template_part( 'template-parts/escenario' ); ?>
+	<?php get_template_part( 'template-parts/content', 'front-page' ); ?>
 </main>
 
 <?php get_footer(); ?>

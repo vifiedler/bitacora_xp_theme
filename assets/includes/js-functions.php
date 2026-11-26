@@ -1,6 +1,6 @@
 <?php
 /**
- * Librerías de front-end, clientes AJAX y escena de la portada.
+ * Librerías de front-end, clientes AJAX y escenarios del juego.
  * @package bitacora_xp_theme
  */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,18 +9,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Relaciona los nombres de Tiled con los PNG del inventario de este mundo. */
 function bitacora_xp_sprites_del_mundo( $mundo ) {
+    static $inventario = null;
+    if ( null !== $inventario ) {
+        return $inventario[ $mundo ] ?? array();
+    }
     $archivo = fopen( get_template_directory() . '/assets/librerias/recursos/sprites/asignaciones_objetos.csv', 'r' );
-    $sprites = array();
+    $inventario = array();
     if ( false !== $archivo ) {
         fgetcsv( $archivo, 0, ',', '"', '\\' ); // Encabezado del inventario.
         while ( false !== ( $fila = fgetcsv( $archivo, 0, ',', '"', '\\' ) ) ) {
-            if ( $mundo === $fila[0] ) {
-                $sprites[ $fila[2] ] = $fila[4];
-            }
+            $slug = str_replace( '_', '-', $fila[0] );
+            $inventario[ $slug ][ $fila[2] ] = $fila[4];
         }
         fclose( $archivo );
     }
-    return $sprites;
+    return $inventario[ $mundo ] ?? array();
 }
 
 function bitacora_xp_cargar_js() {
@@ -78,9 +81,7 @@ function bitacora_xp_cargar_js() {
         'before'
     );
 
-    // Solo en la portada: lanzar ambas peticiones para comprobarlas en Network.
-    // El cliente sigue disponible en entradas/páginas, pero allí no hace solicitudes automáticas.
-    if ( is_front_page() ) {
+    if ( bitacora_xp_mundo_actual() ) {
         $ruta_carga = '/assets/librerias/js/bitacora-xp-carga-inicial.js';
         wp_enqueue_script(
             'bitacora-xp-carga-inicial',
@@ -114,15 +115,18 @@ function bitacora_xp_cargar_js() {
             (string) filemtime( get_template_directory() . $ruta_escenario ),
             true
         );
+        $mapas = bitacora_xp_mapas();
+        foreach ( $mapas as $mundo => $datos ) {
+            $mapas[ $mundo ]['mapa']   = get_template_directory_uri() . '/assets/librerias/mapas/' . $datos['archivo'];
+            $mapas[ $mundo ]['url']    = bitacora_xp_enlace_mapa( $mundo );
+            $mapas[ $mundo ]['sprites'] = bitacora_xp_sprites_del_mundo( $mundo );
+        }
         wp_add_inline_script(
             'bitacora-xp-escenario',
             'window.BitacoraXPEscenario = ' . wp_json_encode(
                 array(
-                    'mapa'     => get_template_directory_uri() . '/assets/librerias/mapas/GachaVault.tmj',
+                    'mapas'    => $mapas,
                     'recursos' => get_template_directory_uri() . '/assets/librerias/recursos/',
-                    'spawn'    => 'spawn_gv_inicio',
-                    'mundo'    => 'gachavault',
-                    'sprites'  => bitacora_xp_sprites_del_mundo( 'gachavault' ),
                 ),
                 JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
             ) . ';',

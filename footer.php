@@ -12,7 +12,7 @@
 ?>
 
 	<?php
-	if ( ! is_front_page() ) {
+	if ( ! bitacora_xp_mundo_actual() ) {
 		get_template_part( 'assets/templates/footers/template-footer' );
 	}
 	?>

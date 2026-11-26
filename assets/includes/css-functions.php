@@ -21,7 +21,7 @@ function bitacora_xp_cargar_css()
     wp_enqueue_style('bitacora-xp-bootstrap');
     wp_enqueue_style('bitacora-xp-iconos');
     wp_enqueue_style('bitacora-xp-general');
-    if (is_front_page()) {
+    if (bitacora_xp_mundo_actual()) {
         wp_enqueue_style('bitacora-xp-escenario');
     }
 }

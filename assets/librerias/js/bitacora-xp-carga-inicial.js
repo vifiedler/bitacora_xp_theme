@@ -1,5 +1,5 @@
 /**
- * Prueba de integración en la portada: dos HTTP GET independientes y en paralelo.
+ * Carga inicial de los mapas mediante dos HTTP GET independientes y en paralelo.
  * Petición 1: WordPress REST (/wp-json/wp/v2/posts)
  * Petición 2: API PHP (/api-bitacora/lista_descubrimientos.php)
  * No dibuja la interfaz del juego ni altera la página.
@@ -50,6 +50,6 @@
     get estado() { return estado; },
   });
 
-  // Se ejecuta únicamente en la portada porque PHP solo encola aquí este archivo.
+  // PHP encola este archivo al entrar en cualquiera de los mapas.
   iniciar();
 })(window);

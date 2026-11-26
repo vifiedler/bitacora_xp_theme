@@ -1,4 +1,4 @@
-body.home {
+body {
 	overflow: hidden;
 	overscroll-behavior: none;
 }
@@ -16,6 +16,10 @@ body.home {
 	display: block;
 	image-rendering: pixelated;
 }
+
+#bitacora-xp-escenario[data-mundo="plaza-central"] { background-color: #82bb94; }
+#bitacora-xp-escenario[data-mundo="sinapsis"] { background-color: #272b3d; }
+#bitacora-xp-escenario[data-mundo="entre-versos"] { background-color: #d6d3be; }
 
 #bitacora-xp-lectura {
 	width: min(36rem, 92vw);
