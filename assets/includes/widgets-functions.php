@@ -1,6 +1,9 @@
 <?php
 add_filter( 'use_widgets_block_editor', '__return_false');
 function bitacora_xp_estilos_footer() {
+    if ( is_front_page() ) {
+        return;
+    }
     $ruta = '/assets/templates/footers/footer.css';
     wp_enqueue_style( 'bitacora-xp-footer', get_template_directory_uri() . $ruta, array( 'bitacora-xp-bootstrap' ), (string) filemtime( get_template_directory() . $ruta ) );
 }

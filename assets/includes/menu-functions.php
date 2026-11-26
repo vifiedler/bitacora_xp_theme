@@ -2,6 +2,9 @@
 /** Menús Bootstrap del tema Bitácora XP. */
 
 function bitacora_xp_estilos_menus() {
+    if ( is_front_page() ) {
+        return;
+    }
     $ruta = '/assets/templates/navs/nav.css';
     wp_enqueue_style( 'bitacora-xp-nav', get_template_directory_uri() . $ruta, array( 'bitacora-xp-bootstrap' ), (string) filemtime( get_template_directory() . $ruta ) );
 }

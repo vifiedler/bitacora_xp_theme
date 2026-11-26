@@ -11,7 +11,11 @@
 
 ?>
 
-	<?php get_template_part( 'assets/templates/footers/template-footer' ); ?>
+	<?php
+	if ( ! is_front_page() ) {
+		get_template_part( 'assets/templates/footers/template-footer' );
+	}
+	?>
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

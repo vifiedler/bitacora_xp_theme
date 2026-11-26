@@ -35,6 +35,8 @@
       return;
     }
 
+    // Al recortar los laterales en móvil, mantener visible la posición inicial de Vicente.
+    contenedor.style.setProperty('--spawn-x', (inicio.x / (mapa.width * mapa.tilewidth) * 100) + '%');
     this.add.image(fondo.x, fondo.y, 'fondo').setOrigin(0);
     for (const capa of mapa.layers) {
       if (!capasVisibles.includes(capa.name)) continue;
@@ -60,7 +62,7 @@
     roundPixels: false,
     audio: { noAudio: true },
     input: { keyboard: false, mouse: false, touch: false, gamepad: false },
-    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, expandParent: false },
+    scale: { mode: Phaser.Scale.ENVELOP, expandParent: false },
     scene: { preload, create },
   });
 }());
