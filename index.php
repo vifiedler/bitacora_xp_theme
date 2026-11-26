@@ -18,10 +18,6 @@ get_header();
 	<main id="primary" class="site-main">
 
 		<?php
-		if ( is_front_page() ) {
-			get_template_part( 'template-parts/escenario' );
-		}
-
 		if ( have_posts() ) :
 
 			if ( is_home() && ! is_front_page() ) :

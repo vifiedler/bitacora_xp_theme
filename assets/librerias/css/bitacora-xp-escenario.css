@@ -1,6 +1,28 @@
+.home #page {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	grid-template-columns: minmax(0, 1fr);
+	height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
+	height: calc(100dvh - var(--wp-admin--admin-bar--height, 0px));
+}
+
+.home #colophon {
+	max-height: 35vh;
+	max-height: 35dvh;
+	overflow-y: auto;
+}
+
+@media (max-width: 991.98px) {
+	.home #masthead {
+		max-height: 50vh;
+		max-height: 50dvh;
+		overflow-y: auto;
+	}
+}
+
 #bitacora-xp-escenario {
-	aspect-ratio: 8 / 5;
-	max-width: min(1440px, 160vh);
+	width: 100%;
+	height: 100%;
 }
 
 #bitacora-xp-escenario canvas {
