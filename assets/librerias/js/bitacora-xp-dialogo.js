@@ -5,6 +5,7 @@
   if (!vista) return;
   const panel = vista.closest('dialog');
   const escenario = document.getElementById('bitacora-xp-escenario');
+  const hud = document.getElementById('bitacora-xp-hud');
   const encabezado = vista.querySelector('h2');
   const nombre = vista.querySelector('.dialogo-nombre');
   const titulo = vista.querySelector('.dialogo-titulo');
@@ -90,8 +91,9 @@
     animacion = null;
     gsap.set([panel, texto], { clearProps: 'opacity,transform' });
     escenario.inert = false;
+    hud.inert = false;
     if (panel.open) panel.close();
-    if (document.activeElement === document.body) escenario.focus({ preventScroll: true });
+    escenario.focus({ preventScroll: true });
     vista.hidden = true;
     panel.removeAttribute('data-dialogo');
     panel.classList.remove('position-fixed', 'z-2');
@@ -185,6 +187,7 @@
     panel.setAttribute('aria-labelledby', encabezado.id);
     panel.show();
     escenario.inert = true;
+    hud.inert = true;
     eventos = new AbortController();
     const opciones = { signal: eventos.signal };
     boton.addEventListener('click', avanzar, opciones);

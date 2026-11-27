@@ -29,7 +29,7 @@
     objetoIndicado = objeto;
     aviso.hidden = !objeto;
     if (objeto) {
-      aviso.style.setProperty('--centro', (objeto.x + objeto.width / 2) / tamano.width * 100 + '%');
+      aviso.style.setProperty('--centro', (objeto.x + objeto.width / 2) / tamano.width * 100 + 'cqw');
       aviso.style.bottom = (1 - objeto.y / tamano.height) * 100 + '%';
     }
   }

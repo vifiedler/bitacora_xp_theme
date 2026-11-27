@@ -59,5 +59,5 @@ if ( 'J' === strtoupper( trim( $textos['etiqueta_diario'] ) ) ) {
 		</ul>
 	</section>
 	<p id="bitacora-xp-ubicacion" class="hud-caja m-0" aria-hidden="true"></p>
-	<p id="bitacora-xp-interaccion" class="hud-caja m-0" aria-hidden="true" hidden><kbd>E / Enter</kbd> Interactuar</p>
+	<p id="bitacora-xp-interaccion" class="hud-caja m-0" hidden><kbd>E / Enter</kbd> Interactuar</p>
 </div>

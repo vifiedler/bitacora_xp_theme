@@ -290,11 +290,12 @@ body {
 [data-mundo="sinapsis"] #bitacora-xp-ubicacion { width: 202px; }
 [data-mundo="entre-versos"] #bitacora-xp-ubicacion { width: 274px; }
 #bitacora-xp-interaccion {
-	left: clamp(0px, calc(var(--centro) - 113.5px), 100% - 227px);
+	left: 0;
+	transform: translateX(clamp(0px, calc(var(--centro) - 50%), calc(100cqw - 100%)));
 	padding: 5px 8px;
 	text-align: center;
 }
-#bitacora-xp-interaccion kbd { color: #f4c65f; background: transparent; border: 0; }
+#bitacora-xp-interaccion kbd { color: #182f38; background: #f4c65f; border: 0; }
 
 @container (max-width: 720px) {
 	.hud-barra { left: var(--margen); width: calc(100% - 2 * var(--margen)); min-height: 38px; }
