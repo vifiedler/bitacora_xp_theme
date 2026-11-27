@@ -16,13 +16,18 @@ $mapas = bitacora_xp_mapas();
 	<h2 id="bitacora-xp-titulo" class="h4 me-5 d-none"><?php echo get_the_title();?></h2>
 	<div class="contenido-lectura" aria-live="polite"></div>
 	<section id="bitacora-xp-dialogo" hidden aria-labelledby="bitacora-xp-hablante">
-		<h2 id="bitacora-xp-hablante" class="h5 me-5"></h2>
-		<p class="dialogo-contador small mb-1" aria-live="polite" hidden></p>
+		<div class="d-flex align-items-start justify-content-between gap-2">
+			<h2 id="bitacora-xp-hablante" class="mb-0">
+				<span class="dialogo-identidad d-block text-uppercase"><span class="dialogo-nombre"></span> / <span class="dialogo-mundo"></span></span>
+				<span class="dialogo-titulo" hidden></span>
+			</h2>
+			<p class="dialogo-contador text-nowrap mb-0" aria-live="polite" hidden></p>
+		</div>
 		<div class="dialogo-parrafos d-grid text-break">
 			<p class="dialogo-texto mb-0" aria-hidden="true"></p>
 		</div>
 		<p class="dialogo-anuncio visually-hidden" role="status" aria-atomic="true"></p>
-		<button type="button" class="dialogo-avance btn btn-link btn-sm mt-2"></button>
+		<button type="button" class="dialogo-avance btn align-self-end mt-auto" title="E / Enter"><span></span> <span aria-hidden="true">→</span></button>
 	</section>
 </dialog>
 <template id="bitacora-xp-plantilla-diario">

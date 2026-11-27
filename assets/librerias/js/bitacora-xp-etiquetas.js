@@ -29,7 +29,7 @@
     const fecha = document.createElement('time');
     fecha.dateTime = hito.fecha;
     const [anio, mes, dia] = hito.fecha.split('-');
-    fecha.append(dia + '/' + mes);
+    fecha.append(dia + '/', document.createElement('wbr'), mes);
     const anioVisible = document.createElement('span');
     anioVisible.className = 'visually-hidden';
     anioVisible.textContent = '/' + anio;
@@ -54,7 +54,6 @@
     const contenedor = canvas.parentElement;
     const lista = document.createElement('ul');
     lista.className = 'position-absolute z-1 pe-none list-unstyled m-0 p-0';
-    lista.style.transformOrigin = 'top left';
     lista.setAttribute('aria-label', 'Hitos de ' + document.getElementById('bitacora-xp-mundo').textContent);
     contenedor.append(lista);
     let entrada;
@@ -63,15 +62,11 @@
       const lienzo = canvas.getBoundingClientRect();
       const marco = contenedor.getBoundingClientRect();
       if (!lienzo.width) return;
-      // En pantallas estrechas se reduce la capa completa para conservar espacio entre rótulos.
-      const ancho = Math.max(480, lienzo.width);
-      const escala = lienzo.width / ancho;
       lista.classList.toggle('hitos-solo-fecha', lienzo.width < 650);
       lista.style.left = (lienzo.left - marco.left) + 'px';
       lista.style.top = (lienzo.top - marco.top) + 'px';
-      lista.style.width = ancho + 'px';
-      lista.style.height = (lienzo.height / escala) + 'px';
-      lista.style.transform = 'scale(' + escala + ')';
+      lista.style.width = lienzo.width + 'px';
+      lista.style.height = lienzo.height + 'px';
     }
     ajustarCapa();
     escena.scale.on('resize', ajustarCapa);

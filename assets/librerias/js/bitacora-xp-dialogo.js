@@ -5,11 +5,14 @@
   if (!vista) return;
   const panel = vista.closest('dialog');
   const escenario = document.getElementById('bitacora-xp-escenario');
-  const nombre = vista.querySelector('h2');
+  const encabezado = vista.querySelector('h2');
+  const nombre = vista.querySelector('.dialogo-nombre');
+  const titulo = vista.querySelector('.dialogo-titulo');
   const contador = vista.querySelector('.dialogo-contador');
   const texto = vista.querySelector('.dialogo-texto');
   const anuncio = vista.querySelector('.dialogo-anuncio');
   const boton = vista.querySelector('button');
+  const accion = boton.firstElementChild;
   const tituloOriginal = panel.getAttribute('aria-labelledby');
   const reducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   const tiempos = { escritura: 30, apertura: 0.3, cierre: 0.2, cambio: 0.18 };
@@ -50,15 +53,15 @@
     texto.textContent = parrafos[indice];
     anuncio.textContent = parrafos[indice];
     estado = 'waiting';
-    boton.textContent = indice + 1 === parrafos.length ? 'Cerrar - E / Enter' : 'Continuar - E / Enter';
+    accion.textContent = indice + 1 === parrafos.length ? 'Finalizar lectura' : 'Continuar';
   }
 
   function escribir() {
     estado = 'typing';
     texto.textContent = '';
     anuncio.textContent = '';
-    if (parrafos.length > 1) contador.textContent = `Párrafo ${indice + 1} de ${parrafos.length}`;
-    boton.textContent = 'Completar - E / Enter';
+    if (parrafos.length > 1) contador.textContent = `${indice + 1} de ${parrafos.length}`;
+    accion.textContent = 'Completar';
     if (reducido.matches) {
       completar();
       return;
@@ -91,7 +94,7 @@
     if (document.activeElement === document.body) escenario.focus({ preventScroll: true });
     vista.hidden = true;
     panel.removeAttribute('data-dialogo');
-    panel.classList.remove('mb-5', 'position-fixed', 'z-2');
+    panel.classList.remove('position-fixed', 'z-2');
     panel.setAttribute('aria-labelledby', tituloOriginal);
     texto.parentElement.replaceChildren(texto);
     texto.textContent = anuncio.textContent = nombre.textContent = '';
@@ -146,9 +149,9 @@
     indice = 0;
     nombre.textContent = hablante;
     contador.hidden = parrafos.length === 1;
-    if (!contador.hidden) contador.textContent = `Párrafo 1 de ${parrafos.length}`;
+    if (!contador.hidden) contador.textContent = `1 de ${parrafos.length}`;
     boton.hidden = false;
-    boton.textContent = 'Completar - E / Enter';
+    accion.textContent = 'Completar';
     for (const parrafo of parrafos) {
       const medida = document.createElement('p');
       medida.className = 'invisible mb-0';
@@ -165,17 +168,21 @@
     }
   }
 
-  function abrir(hablante, fuente) {
+  function abrir(hablante, fuente, tituloLectura = '') {
     if (estado !== 'closed' || panel.open) return false;
     const partes = typeof fuente === 'string' ? separarParrafos(fuente) : [];
     if (!partes.length && typeof fuente !== 'function') return false;
     estado = 'opening';
     vista.hidden = false;
     nombre.textContent = hablante;
+    titulo.hidden = !tituloLectura;
+    titulo.textContent = tituloLectura;
+    vista.dataset.mundo = escenario.dataset.mundo;
+    vista.querySelector('.dialogo-mundo').textContent = document.getElementById('bitacora-xp-mundo').textContent;
     boton.hidden = !partes.length;
-    panel.classList.add('mb-5', 'position-fixed', 'z-2');
+    panel.classList.add('position-fixed', 'z-2');
     panel.setAttribute('data-dialogo', '');
-    panel.setAttribute('aria-labelledby', nombre.id);
+    panel.setAttribute('aria-labelledby', encabezado.id);
     panel.show();
     escenario.inert = true;
     eventos = new AbortController();

@@ -118,6 +118,7 @@
     const lectura = document.getElementById('bitacora-xp-lectura');
     const ubicarDialogo = () => {
       const rect = this.game.canvas.getBoundingClientRect();
+      lectura.style.setProperty('--bitacora-ancho-canvas', rect.width + 'px');
       Object.assign(hud.style, { left: rect.left + 'px', top: rect.top + 'px', width: rect.width + 'px', height: rect.height + 'px' });
       hud.hidden = false;
       const borde = rect.bottom;

@@ -88,10 +88,10 @@
       limpiarLectura();
       panel.close();
       if (!pendiente) return;
-      BitacoraXPDialogo.abrir('¿Qué aprendí?', async () => {
+      BitacoraXPDialogo.abrir('Vicente', async () => {
         const lectura = await pendiente.catch(() => null);
-        return lectura?.reflexion ? { hablante: '¿Qué aprendí?', texto: lectura.reflexion } : null;
-      });
+        return lectura?.reflexion ? { hablante: 'Vicente', texto: lectura.reflexion } : null;
+      }, '¿Qué aprendí?');
     }
     if (movimientoReducido.matches) {
       terminarCierre();
