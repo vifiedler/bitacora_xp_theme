@@ -107,11 +107,19 @@ function bitacora_xp_cargar_js() {
             (string) filemtime( get_template_directory() . $ruta_lectura ),
             true
         );
+        $ruta_etiquetas = '/assets/librerias/js/bitacora-xp-etiquetas.js';
+        wp_enqueue_script(
+            'bitacora-xp-etiquetas',
+            get_template_directory_uri() . $ruta_etiquetas,
+            array( 'bitacora-xp-rest', 'bitacora-xp-dompurify', 'bitacora-xp-gsap' ),
+            (string) filemtime( get_template_directory() . $ruta_etiquetas ),
+            true
+        );
         $ruta_escenario = '/assets/librerias/js/bitacora-xp-escenario.js';
         wp_enqueue_script(
             'bitacora-xp-escenario',
             get_template_directory_uri() . $ruta_escenario,
-            array( 'bitacora-xp-phaser', 'bitacora-xp-lectura' ),
+            array( 'bitacora-xp-phaser', 'bitacora-xp-lectura', 'bitacora-xp-etiquetas' ),
             (string) filemtime( get_template_directory() . $ruta_escenario ),
             true
         );
@@ -137,6 +145,13 @@ function bitacora_xp_cargar_js() {
             'https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/gsap.min.js',
             array(),
             '3.15.1',
+            true
+        );
+        wp_enqueue_script(
+            'bitacora-xp-typed',
+            'https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js',
+            array(),
+            '2.1.0',
             true
         );
         wp_enqueue_script(

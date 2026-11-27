@@ -17,6 +17,7 @@
   let pisada;
   let vicente;
   let teclas;
+  let retirarEtiquetas;
 
   function preload() {
     this.load.on('loaderror', (archivo) => {
@@ -83,6 +84,9 @@
     }
     vicente = escena.add.image(inicio.x, inicio.y, 'vicente_sur').setOrigin(0.5, 1).setName('vicente');
     elementos.add(vicente);
+    retirarEtiquetas?.();
+    const hitos = mapa.layers.find((capa) => capa.name === 'hitos');
+    retirarEtiquetas = BitacoraXPEtiquetas.mostrar(escena, hitos?.objects || []);
     escena.input.keyboard.resetKeys();
     return true;
   }
@@ -107,6 +111,7 @@
     contenedor.addEventListener('blur', reiniciarTeclas);
     contenedor.addEventListener('keydown', accionar);
     this.events.once('shutdown', () => {
+      retirarEtiquetas?.();
       window.removeEventListener('popstate', volver);
       contenedor.removeEventListener('blur', reiniciarTeclas);
       contenedor.removeEventListener('keydown', accionar);
