@@ -16,7 +16,7 @@
   const accion = boton.firstElementChild;
   const tituloOriginal = panel.getAttribute('aria-labelledby');
   const reducido = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const tiempos = { escritura: 30, apertura: 0.3, cierre: 0.2, cambio: 0.18 };
+  const tiempos = { escritura: 15, apertura: 0.3, cierre: 0.2, cambio: 0.18 };
   let estado = 'closed';
   let parrafos = [];
   let indice = 0;
