@@ -85,7 +85,7 @@
           if (entrada.mundo === panel.dataset.mundo) lista.append(detalle(entrada));
         }
         panel.append(lista);
-        const nombre = document.createElement('h3');
+        const nombre = document.createElement('h4');
         nombre.className = 'h6';
         nombre.textContent = vista.querySelector('#' + panel.getAttribute('aria-labelledby')).textContent;
         total.append(nombre, lista.cloneNode(true));

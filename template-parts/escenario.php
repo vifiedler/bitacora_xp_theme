@@ -75,6 +75,7 @@ $mapas = bitacora_xp_mapas();
                     data-mundo="<?php echo esc_attr( $slug ); ?>"
                     tabindex="0"
                 >
+                    <h3 class="diario-titulo-panel mb-3"><?php echo esc_html( $nombre ); ?></h3>
                     <p class="mb-1"></p>
                     <div
                         class="progress mb-3"

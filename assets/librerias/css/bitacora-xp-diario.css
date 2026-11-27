@@ -62,6 +62,11 @@
 	border: 0;
 }
 
+#bitacora-xp-lectura[data-diario] .diario-titulo-panel {
+	font: 700 24px/1.2 "Pixelify Sans", monospace;
+	color: #182f38;
+}
+
 #bitacora-xp-lectura[data-diario] .diario-indice .nav-link {
 	--acento: #c5b995;
 	width: 100%;
