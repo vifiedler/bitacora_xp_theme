@@ -11,7 +11,7 @@
     const centro = objeto.x + objeto.width / 2;
     const punto = puntoEnInterfaz(centro, objeto.y, tamano);
     const ancla = document.createElement('li');
-    ancla.className = 'position-absolute translate-middle-x col-2 col-sm-auto text-center lh-1';
+    ancla.className = 'position-absolute translate-middle-x col-3 col-sm-auto text-center lh-1';
     ancla.dataset.hito = objeto.name;
     ancla.style.left = punto.izquierda + '%';
     ancla.style.bottom = punto.abajo + '%';
@@ -25,18 +25,20 @@
     ancla.style.maxWidth = (100 * espacio / tamano.width) + '%';
 
     const rotulo = document.createElement('span');
-    rotulo.className = 'badge text-bg-light text-wrap text-break mw-100 fw-normal px-1';
+    rotulo.className = 'etiqueta-hito d-inline-flex flex-column justify-content-center align-items-center mw-100';
     const fecha = document.createElement('time');
-    fecha.className = 'd-block fw-semibold';
     fecha.dateTime = hito.fecha;
     const [anio, mes, dia] = hito.fecha.split('-');
     fecha.append(dia + '/' + mes);
     const anioVisible = document.createElement('span');
-    anioVisible.className = 'd-none d-md-inline';
+    anioVisible.className = 'visually-hidden';
     anioVisible.textContent = '/' + anio;
     fecha.append(anioVisible);
     const sesion = DOMPurify.sanitize(hito.sesion, { ALLOWED_TAGS: [], RETURN_DOM_FRAGMENT: true }).textContent.trim();
-    rotulo.append(fecha, sesion);
+    const titulo = document.createElement('span');
+    titulo.className = 'etiqueta-hito-titulo';
+    titulo.textContent = sesion;
+    rotulo.append(fecha, titulo);
     ancla.append(rotulo);
     return ancla;
   }

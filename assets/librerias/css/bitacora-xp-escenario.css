@@ -44,6 +44,41 @@ body {
 	white-space: pre-wrap;
 }
 
+.etiqueta-hito {
+	--color-fecha: #ffe39b;
+	min-width: min(85px, 100%);
+	min-height: 53px;
+	padding: 1px 8px 3px;
+	border: 2px solid #182f38;
+	background-color: #182f38;
+	color: #fff8e2;
+	vertical-align: bottom;
+}
+
+.etiqueta-hito--posterior {
+	--color-fecha: #42545d;
+	border-color: #55625a;
+	background-color: #fff6df;
+	color: #182f38;
+}
+
+.etiqueta-hito time {
+	color: var(--color-fecha);
+	font: 500 16px/24px "Roboto Mono", monospace;
+	margin-bottom: -3px;
+}
+
+.etiqueta-hito-titulo {
+	max-width: 100%;
+	overflow-wrap: anywhere;
+	font: 600 20px/24px "Pixelify Sans", monospace;
+}
+
+@media (max-width: 575.98px), (max-height: 359.98px) {
+	.etiqueta-hito { padding-inline: 2px; }
+	.etiqueta-hito-titulo { line-height: 1; }
+}
+
 #bitacora-xp-hud {
 	--tinta: #182f38;
 	--crema: #fff8e2;
