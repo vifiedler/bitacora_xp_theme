@@ -5,8 +5,50 @@
   if (!panel) return;
   const titulo = panel.querySelector('h2');
   const contenido = panel.querySelector('.contenido-lectura');
+  const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const movimiento = {
+    apertura: { y: 10, duration: 0.4, ease: 'power3.out' },
+    cierre: { y: 6, duration: 0.25, ease: 'power2.in' },
+  };
+  let animacion;
+  let cerrando = false;
+  let tipoLectura;
   let consulta = 0;
-  let diarioAbierto = false;
+
+  function limpiarAnimacion() {
+    if (!animacion) return;
+    animacion.kill();
+    animacion = null;
+    gsap.set(panel, { clearProps: 'opacity,transform' });
+  }
+
+  function solicitarCierre(evento) {
+    if (tipoLectura !== 'hitos') return;
+    evento.preventDefault();
+    if (cerrando || !panel.open) return;
+    cerrando = true;
+    ++consulta;
+    if (movimientoReducido.matches) {
+      panel.close();
+      return;
+    }
+    // Si la entrada sigue activa, la salida parte de su posición y opacidad actuales.
+    animacion?.kill();
+    animacion = gsap.to(panel, {
+      ...movimiento.cierre, opacity: 0, onComplete: () => panel.close(),
+    });
+  }
+
+  panel.addEventListener('cancel', solicitarCierre);
+  panel.querySelector('form[method="dialog"]').addEventListener('submit', solicitarCierre);
+  panel.addEventListener('close', () => {
+    if (panel.open) return;
+    limpiarAnimacion();
+    cerrando = false;
+  });
+  movimientoReducido.addEventListener('change', () => {
+    if (movimientoReducido.matches) animacion?.progress(1);
+  });
 
   function elemento(etiqueta, texto) {
     const nodo = document.createElement(etiqueta);
@@ -22,13 +64,22 @@
     });
   }
 
-  async function mostrar(tituloInicial, esDiario, cargar) {
+  async function mostrar(tituloInicial, tipo, cargar) {
+    if (panel.open && (cerrando || tipo !== 'diario' || tipoLectura === 'diario')) return;
+    limpiarAnimacion();
+    cerrando = false;
     const turno = ++consulta;
-    diarioAbierto = esDiario;
+    tipoLectura = tipo;
     titulo.textContent = tituloInicial;
     contenido.textContent = 'Cargando…';
     if (!panel.open) panel.showModal();
     panel.scrollTop = 0;
+    if (tipo === 'hitos' && !movimientoReducido.matches) {
+      const { y, duration, ease } = movimiento.apertura;
+      animacion = gsap.fromTo(panel, { opacity: 0, y }, {
+        opacity: 1, y: 0, duration, ease, clearProps: 'opacity,transform',
+      });
+    }
     try {
       const lectura = await cargar();
       if (turno !== consulta || !panel.open) return;
@@ -42,7 +93,7 @@
   }
 
   function abrirDiario() {
-    mostrar('Diario de descubrimientos', true, async () => {
+    mostrar('Diario de descubrimientos', 'diario', async () => {
       const { descubrimientos } = await BitacoraXPDescubrimientos.obtenerTodos();
       const cuerpo = document.createDocumentFragment();
       for (const entrada of descubrimientos) {
@@ -56,7 +107,7 @@
   }
 
   function interactuar(capa, codigo, mundo) {
-    mostrar('Interacción', false, async () => {
+    mostrar('Interacción', capa, async () => {
       if (capa === 'npc') {
         const npc = await BitacoraXPData.obtenerNPC(mundo, codigo);
         if (!npc) throw new Error('NPC sin datos: ' + codigo);
@@ -79,10 +130,14 @@
   }
 
   panel.addEventListener('keydown', (evento) => {
+    if (tipoLectura === 'hitos' && evento.key === 'Enter' && evento.repeat) {
+      evento.preventDefault();
+      return;
+    }
     if (evento.key.toLowerCase() !== 'j' || evento.ctrlKey || evento.altKey || evento.metaKey) return;
     evento.preventDefault();
     if (evento.repeat) return;
-    if (diarioAbierto) panel.close();
+    if (tipoLectura === 'diario') panel.close();
     else abrirDiario();
   });
 

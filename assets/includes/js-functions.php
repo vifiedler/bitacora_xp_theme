@@ -103,7 +103,7 @@ function bitacora_xp_cargar_js() {
         wp_enqueue_script(
             'bitacora-xp-lectura',
             get_template_directory_uri() . $ruta_lectura,
-            array( 'bitacora-xp-rest', 'bitacora-xp-descubrimientos', 'bitacora-xp-dompurify' ),
+            array( 'bitacora-xp-rest', 'bitacora-xp-descubrimientos', 'bitacora-xp-dompurify', 'bitacora-xp-gsap' ),
             (string) filemtime( get_template_directory() . $ruta_lectura ),
             true
         );
