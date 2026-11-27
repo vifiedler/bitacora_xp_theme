@@ -76,7 +76,10 @@ body {
 	background: var(--tinta);
 	color: var(--crema);
 }
-.hud-titulo-controles { min-height: 37px; padding: 2px 11px; }
+.hud-titulo-controles { padding: 1px 11px; }
+#bitacora-xp-hud .hud-titulo-controles h2 { font-size: 20px; line-height: 24px; }
+#bitacora-xp-controles .row { min-height: 25px; }
+#bitacora-xp-controles .row kbd { line-height: 20px; }
 #bitacora-xp-hud .hud-titulo-controles button { color: #eadfae; }
 #bitacora-xp-alternar-controles { padding: 2px 4px; }
 #bitacora-xp-hud :is(button, a) {
