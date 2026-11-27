@@ -32,15 +32,15 @@ if ( 'J' === strtoupper( trim( $textos['etiqueta_diario'] ) ) ) {
 	<aside id="bitacora-xp-panel-controles" class="hud-caja" aria-labelledby="bitacora-xp-titulo-movimiento">
 		<div class="hud-titulo-controles d-flex align-items-center justify-content-between gap-1">
 			<h2 id="bitacora-xp-titulo-movimiento"><?php echo esc_html( $textos['titulo_movimiento'] ); ?></h2>
-			<button type="button" id="bitacora-xp-alternar-controles" aria-controls="bitacora-xp-controles" aria-expanded="true"><?php echo esc_html( $textos['etiqueta_ocultar_controles'] ); ?></button>
+			<button type="button" id="bitacora-xp-alternar-controles" aria-controls="bitacora-xp-controles" aria-expanded="true" aria-label="<?php echo esc_attr( $textos['etiqueta_ocultar_controles'] ); ?>"><?php echo esc_html( 'Ocultar controles' === $textos['etiqueta_ocultar_controles'] ? 'Ocultar' : $textos['etiqueta_ocultar_controles'] ); ?></button>
 		</div>
 		<div id="bitacora-xp-controles" class="text-start">
 			<p class="visually-hidden"><?php echo esc_html( $textos['descripcion_movimiento'] ); ?></p>
-			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><?php foreach ( array_filter( array_map( 'trim', explode( '/', $textos['etiqueta_movimiento'] ) ) ) as $teclas ) : ?>
+			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col d-flex flex-wrap align-items-center hud-movimiento"><?php foreach ( array_filter( array_map( 'trim', explode( '/', $textos['etiqueta_movimiento'] ) ) ) as $teclas ) : ?>
 					<kbd><?php if ( 'flechas' === strtolower( $teclas ) ) : ?><span aria-hidden="true">↑↓←→</span><span class="visually-hidden"><?php echo esc_html( $teclas ); ?></span><?php else : ?><?php echo esc_html( $teclas ); ?><?php endif; ?></kbd>
 				<?php endforeach; ?></span> <span class="col">Mover</span></p>
 			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd><?php echo esc_html( $textos['etiqueta_interactuar'] ); ?></kbd></span> <span class="col">Interactuar</span></p>
-			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd id="bitacora-xp-tecla-diario"></kbd></span> <span class="col"><?php echo esc_html( $textos['etiqueta_diario'] ); ?></span></p>
+			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd id="bitacora-xp-tecla-diario"></kbd></span> <span class="col"><?php if ( 'Abrir diario de descubrimiento' === $textos['etiqueta_diario'] ) : ?><span aria-hidden="true">Diario</span><span class="visually-hidden"><?php echo esc_html( $textos['etiqueta_diario'] ); ?></span><?php else : ?><?php echo esc_html( $textos['etiqueta_diario'] ); ?><?php endif; ?></span></p>
 			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd><?php echo esc_html( $textos['etiqueta_cerrar'] ); ?></kbd></span> <span class="col">Cerrar</span></p>
 		</div>
 	</aside>

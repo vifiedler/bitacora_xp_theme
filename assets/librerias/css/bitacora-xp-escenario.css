@@ -66,7 +66,7 @@ body {
 #bitacora-xp-panel-controles {
 	top: var(--margen);
 	left: var(--margen);
-	width: min(324px, 96%);
+	width: min(96%, max(280px, 20.278cqw));
 }
 #bitacora-xp-hud h2 {
 	margin: 0;
@@ -76,7 +76,8 @@ body {
 	background: var(--tinta);
 	color: var(--crema);
 }
-.hud-titulo-controles { padding: 3px 10px; }
+.hud-titulo-controles { min-height: 37px; padding: 2px 11px; }
+#bitacora-xp-hud .hud-titulo-controles button { color: #eadfae; }
 #bitacora-xp-alternar-controles { padding: 2px 4px; }
 #bitacora-xp-hud :is(button, a) {
 	pointer-events: auto;
@@ -92,6 +93,12 @@ body {
 #bitacora-xp-hud :is(button, a):focus-visible { outline: 3px solid #f4c65f; outline-offset: -3px; }
 #bitacora-xp-controles { padding: 0 11px; background-color: var(--crema); }
 #bitacora-xp-controles .row + .row { border-top: 1px solid #d5d5be; }
+#bitacora-xp-controles .row > :last-child { padding-left: 8px; }
+#bitacora-xp-controles .row kbd { min-width: 36px; text-align: center; }
+.hud-movimiento { gap: min(6px, 1cqw); }
+#bitacora-xp-controles .hud-movimiento kbd { min-width: min(60px, 47%); }
+#bitacora-xp-controles kbd:only-child:not([id]) { padding-inline: 12px; }
+#bitacora-xp-controles .hud-movimiento kbd + kbd { min-width: min(62px, 48%); }
 #bitacora-xp-hud kbd {
 	display: inline-block;
 	border: 1px solid #adb9a9;
