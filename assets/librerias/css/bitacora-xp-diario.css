@@ -56,6 +56,54 @@
 	padding: clamp(8px, 2.2vw, 32px);
 }
 
+#bitacora-xp-lectura[data-diario] .diario-indice .nav-tabs {
+	max-width: 254px;
+	gap: 13px;
+	border: 0;
+}
+
+#bitacora-xp-lectura[data-diario] .diario-indice .nav-link {
+	--acento: #c5b995;
+	width: 100%;
+	min-height: 53px;
+	margin: 0;
+	border: 2px solid #b6ae93;
+	border-left: 6px solid #9a8e77;
+	border-radius: 0;
+	background: #e9e2c9;
+	color: #182f38;
+	font: 500 16px/1.35 "Roboto Mono", monospace;
+	text-align: left;
+	overflow-wrap: anywhere;
+}
+
+#bitacora-xp-lectura[data-diario] #tab-gachavault { --acento: #ffa4ab; }
+#bitacora-xp-lectura[data-diario] #tab-sinapsis { --acento: #a78bfa; }
+#bitacora-xp-lectura[data-diario] #tab-entre-versos { --acento: #d4ff00; }
+
+#bitacora-xp-lectura[data-diario] .diario-indice .nav-link.active {
+	border-color: #182f38;
+	border-left-color: var(--acento);
+	background: #182f38;
+	color: #fff8e2;
+	font-weight: 700;
+}
+
+#bitacora-xp-lectura[data-diario] .diario-indice .nav-link:hover {
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
+}
+
+#bitacora-xp-lectura[data-diario] .diario-indice .nav-link:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -5px;
+	box-shadow: none;
+}
+
+#bitacora-xp-lectura[data-diario] .diario-indice .nav-link:active {
+	box-shadow: inset 2px 2px currentColor;
+}
+
 @media (min-width: 576px) {
 	#bitacora-xp-lectura[data-diario] .diario-indice { width: 25.94%; }
 }
