@@ -7,10 +7,40 @@
   const contenido = panel.querySelector('.contenido-lectura');
   const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   const movimiento = {
-    apertura: { y: 10, duration: 0.6, ease: 'power2.out' },
-    cierre: { y: 6, duration: 0.6, ease: 'power2.in' },
+    apertura: { y: 10, duration: 0.4, ease: 'power3.out' },
+    cierre: { y: 6, duration: 0.25, ease: 'power2.in' },
   };
   let animacion;
+  let desplazamiento;
+  function detenerScroll() {
+    desplazamiento?.kill();
+    desplazamiento = null;
+  }
+
+  function prepararScroll(region) {
+    let destino = 0;
+    region.addEventListener('wheel', evento => {
+      if (cerrando || movimientoReducido.matches || evento.ctrlKey || !evento.deltaY ||
+          Math.abs(evento.deltaX) > Math.abs(evento.deltaY)) return;
+      const limite = region.scrollHeight - region.clientHeight;
+      if (!limite || (evento.deltaY < 0 && region.scrollTop <= 0) ||
+          (evento.deltaY > 0 && region.scrollTop >= limite - 1)) {
+        detenerScroll();
+        return;
+      }
+      const unidad = evento.deltaMode === 1 ? parseFloat(getComputedStyle(region).lineHeight)
+        : evento.deltaMode === 2 ? region.clientHeight : 1;
+      destino = Math.min(limite, Math.max(0, (desplazamiento ? destino : region.scrollTop) + evento.deltaY * unidad));
+      evento.preventDefault();
+      detenerScroll();
+      desplazamiento = gsap.to(region, {
+        scrollTop: destino, duration: 0.3, ease: 'power2.out',
+        onComplete: () => { desplazamiento = null; },
+      });
+    }, { passive: false });
+    region.addEventListener('keydown', detenerScroll);
+    region.addEventListener('pointerdown', detenerScroll);
+  }
   let cerrando = false;
   let tipoLectura;
   let lecturaActual;
@@ -26,6 +56,8 @@
   function limpiarLectura() {
     ++consulta;
     limpiarAnimacion();
+    detenerScroll();
+    delete panel.dataset.hito;
     lecturaActual = null;
     tipoLectura = null;
     cerrando = false;
@@ -48,6 +80,7 @@
     evento.preventDefault();
     if (cerrando || !panel.open) return;
     cerrando = true;
+    detenerScroll();
     const turno = ++consulta;
     const pendiente = lecturaActual;
     function terminarCierre() {
@@ -77,7 +110,10 @@
     if (!panel.open) limpiarLectura();
   });
   movimientoReducido.addEventListener('change', () => {
-    if (movimientoReducido.matches) animacion?.progress(1);
+    if (movimientoReducido.matches) {
+      detenerScroll();
+      animacion?.progress(1);
+    }
   });
 
   function elemento(etiqueta, texto) {
@@ -100,6 +136,7 @@
     cerrando = false;
     const turno = ++consulta;
     tipoLectura = tipo;
+    if (tipo === 'hitos') panel.dataset.hito = '';
     titulo.textContent = tituloInicial;
     contenido.textContent = 'Cargando…';
     if (!panel.open) panel.showModal();
@@ -154,20 +191,42 @@
       const hito = hitos.find((entrada) => entrada.codigo === codigo);
       if (!hito) throw new Error('Hito sin datos: ' + codigo);
       const cuerpo = document.createElement('section');
+      cuerpo.className = 'hito-ventana d-flex flex-column h-100';
+      const datos = elemento('p', window.BitacoraXPEscenario.mapas[mundo]?.nombre || '');
+      datos.className = 'hito-datos text-uppercase';
+      if (hito.fecha) {
+        const fecha = elemento('time', new Intl.DateTimeFormat('es-CL', {
+          dateStyle: 'long', timeZone: 'UTC',
+        }).format(new Date(hito.fecha + 'T00:00:00Z')));
+        fecha.dateTime = hito.fecha;
+        datos.append(' / ', fecha);
+      }
+      const sesion = textoWordPress(hito.titulo).textContent;
+      const subtitulo = elemento('h3', sesion);
+      subtitulo.id = 'bitacora-xp-sesion';
+      const region = document.createElement('div');
+      region.className = 'hito-relato';
+      region.tabIndex = 0;
+      region.setAttribute('role', 'region');
+      region.setAttribute('aria-labelledby', subtitulo.id);
       const relato = textoWordPress(hito.queHice);
-      cuerpo.append(elemento('h2', '¿Qué hice?'));
-      if (relato.querySelector('p, ul, ol')) cuerpo.append(relato);
+      if (relato.querySelector('p, ul, ol')) region.append(relato);
       else {
         const parrafo = document.createElement('p');
         parrafo.append(relato);
-        cuerpo.append(parrafo);
+        region.append(parrafo);
       }
-      const cerrar = elemento('button', 'Cerrar - E / Enter');
+      prepararScroll(region);
+      const cerrar = elemento('button', 'Cerrar y leer reflexión');
+      cerrar.title = 'Cerrar con E o Enter';
+      const flecha = elemento('span', '→');
+      flecha.setAttribute('aria-hidden', 'true');
+      cerrar.append(' ', flecha);
       cerrar.type = 'submit';
       cerrar.setAttribute('form', 'bitacora-xp-cierre');
-      cerrar.className = 'btn btn-link btn-sm mt-2';
-      cuerpo.append(cerrar);
-      return { titulo: textoWordPress(hito.titulo).textContent, cuerpo, reflexion: hito.queAprendi };
+      cerrar.className = 'btn hito-cerrar align-self-end mt-auto';
+      cuerpo.append(datos, elemento('h2', '¿Qué hice?'), subtitulo, region, cerrar);
+      return { titulo: '¿Qué hice? ' + sesion, cuerpo, reflexion: hito.queAprendi };
     });
   }
 

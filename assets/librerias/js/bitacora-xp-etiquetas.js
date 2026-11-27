@@ -11,7 +11,7 @@
     const centro = objeto.x + objeto.width / 2;
     const punto = puntoEnInterfaz(centro, objeto.y, tamano);
     const ancla = document.createElement('li');
-    ancla.className = 'position-absolute translate-middle-x col-3 col-sm-auto text-center lh-1';
+    ancla.className = 'hito-ancla position-absolute translate-middle-x text-center lh-1';
     ancla.dataset.hito = objeto.name;
     ancla.style.left = punto.izquierda + '%';
     ancla.style.bottom = punto.abajo + '%';
@@ -36,9 +36,14 @@
     fecha.append(anioVisible);
     const sesion = DOMPurify.sanitize(hito.sesion, { ALLOWED_TAGS: [], RETURN_DOM_FRAGMENT: true }).textContent.trim();
     const titulo = document.createElement('span');
-    titulo.className = 'etiqueta-hito-titulo';
-    titulo.textContent = sesion;
-    rotulo.append(fecha, titulo);
+    titulo.className = 'etiqueta-hito-titulo text-truncate w-100';
+    titulo.setAttribute('aria-hidden', 'true');
+    const palabras = sesion.split(/\s+/);
+    titulo.textContent = palabras.slice(0, 2).join(' ') + (palabras.length > 2 ? '…' : '');
+    const nombreCompleto = document.createElement('span');
+    nombreCompleto.className = 'visually-hidden';
+    nombreCompleto.textContent = sesion;
+    rotulo.append(fecha, titulo, nombreCompleto);
     ancla.append(rotulo);
     return ancla;
   }
@@ -61,6 +66,7 @@
       // En pantallas estrechas se reduce la capa completa para conservar espacio entre rótulos.
       const ancho = Math.max(480, lienzo.width);
       const escala = lienzo.width / ancho;
+      lista.classList.toggle('hitos-solo-fecha', lienzo.width < 650);
       lista.style.left = (lienzo.left - marco.left) + 'px';
       lista.style.top = (lienzo.top - marco.top) + 'px';
       lista.style.width = ancho + 'px';
