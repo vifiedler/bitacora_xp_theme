@@ -15,4 +15,12 @@ $mapas = bitacora_xp_mapas();
 	</form>
 	<h2 id="bitacora-xp-titulo" class="h4 me-5 d-none"><?php echo get_the_title();?></h2>
 	<div class="contenido-lectura" aria-live="polite"></div>
+	<section id="bitacora-xp-dialogo" hidden aria-labelledby="bitacora-xp-hablante">
+		<h2 id="bitacora-xp-hablante" class="h5 me-5"></h2>
+		<div class="dialogo-parrafos d-grid text-break">
+			<p class="dialogo-texto mb-0" aria-hidden="true"></p>
+		</div>
+		<p class="dialogo-anuncio visually-hidden" role="status" aria-atomic="true"></p>
+		<button type="button" class="dialogo-avance btn btn-link btn-sm mt-2"></button>
+	</section>
 </dialog>

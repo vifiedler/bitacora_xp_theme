@@ -27,3 +27,18 @@ body {
 	overflow: auto;
 	overscroll-behavior: contain;
 }
+
+#bitacora-xp-lectura[data-dialogo] {
+	inset: auto 0 0;
+	margin: 0 auto;
+}
+
+#bitacora-xp-lectura[data-dialogo] > .contenido-lectura {
+	display: none;
+}
+
+/* Los párrafos de medida comparten la celda para reservar la altura del más largo. */
+.dialogo-parrafos > p {
+	grid-area: 1 / 1;
+	white-space: pre-wrap;
+}

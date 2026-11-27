@@ -13,6 +13,7 @@
   let animacion;
   let cerrando = false;
   let tipoLectura;
+  let lecturaActual;
   let consulta = 0;
 
   function limpiarAnimacion() {
@@ -23,19 +24,38 @@
   }
 
   function solicitarCierre(evento) {
+    if (panel.hasAttribute('data-dialogo')) {
+      evento.preventDefault();
+      BitacoraXPDialogo.cerrar();
+      return;
+    }
     if (tipoLectura !== 'hitos') return;
     evento.preventDefault();
     if (cerrando || !panel.open) return;
     cerrando = true;
-    ++consulta;
-    if (movimientoReducido.matches) {
+    const turno = ++consulta;
+    const pendiente = lecturaActual;
+    const escenario = document.getElementById('bitacora-xp-escenario');
+    const mundo = escenario.dataset.mundo;
+    async function terminarCierre() {
+      if (!panel.open || turno !== consulta) return;
+      limpiarAnimacion();
       panel.close();
+      cerrando = false;
+      const lectura = await pendiente.catch(() => null);
+      if (turno === consulta && mundo === escenario.dataset.mundo && !panel.open && lectura?.reflexion) {
+        contenido.replaceChildren();
+        BitacoraXPDialogo.abrir('¿Qué aprendí?', lectura.reflexion);
+      }
+    }
+    if (movimientoReducido.matches) {
+      terminarCierre();
       return;
     }
     // Si la entrada sigue activa, la salida parte de su posición y opacidad actuales.
     animacion?.kill();
     animacion = gsap.to(panel, {
-      ...movimiento.cierre, opacity: 0, onComplete: () => panel.close(),
+      ...movimiento.cierre, opacity: 0, onComplete: terminarCierre,
     });
   }
 
@@ -65,6 +85,7 @@
   }
 
   async function mostrar(tituloInicial, tipo, cargar) {
+    if (panel.hasAttribute('data-dialogo')) return;
     if (panel.open && (cerrando || tipo !== 'diario' || tipoLectura === 'diario')) return;
     limpiarAnimacion();
     cerrando = false;
@@ -81,7 +102,8 @@
       });
     }
     try {
-      const lectura = await cargar();
+      lecturaActual = cargar();
+      const lectura = await lecturaActual;
       if (turno !== consulta || !panel.open) return;
       titulo.textContent = lectura.titulo;
       contenido.replaceChildren(lectura.cuerpo);
@@ -122,14 +144,30 @@
       const hitos = await BitacoraXPData.obtenerTodosHitos();
       const hito = hitos.find((entrada) => entrada.codigo === codigo);
       if (!hito) throw new Error('Hito sin datos: ' + codigo);
-      const cuerpo = document.createDocumentFragment();
-      cuerpo.append(elemento('h3', '¿Qué hice?'), textoWordPress(hito.queHice),
-        elemento('h3', '¿Qué aprendí?'), textoWordPress(hito.queAprendi));
-      return { titulo: textoWordPress(hito.titulo).textContent, cuerpo };
+      const cuerpo = document.createElement('section');
+      const relato = textoWordPress(hito.queHice);
+      cuerpo.append(elemento('h2', '¿Qué hice?'));
+      if (relato.querySelector('p, ul, ol')) cuerpo.append(relato);
+      else {
+        const parrafo = document.createElement('p');
+        parrafo.append(relato);
+        cuerpo.append(parrafo);
+      }
+      return { titulo: textoWordPress(hito.titulo).textContent, cuerpo, reflexion: hito.queAprendi };
     });
   }
 
   panel.addEventListener('keydown', (evento) => {
+    if (panel.hasAttribute('data-dialogo')) {
+      if (evento.ctrlKey || evento.altKey || evento.metaKey || evento.isComposing) return;
+      if (evento.key === 'Escape' && evento.repeat) evento.preventDefault();
+      if (evento.key.toLowerCase() === 'e' || evento.key === 'Enter') {
+        evento.preventDefault();
+        evento.stopPropagation();
+        if (!evento.repeat) BitacoraXPDialogo.avanzar();
+      }
+      return;
+    }
     if (tipoLectura === 'hitos' && evento.key === 'Enter' && evento.repeat) {
       evento.preventDefault();
       return;
