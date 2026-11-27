@@ -7,7 +7,7 @@
   const contenido = panel.querySelector('.contenido-lectura');
   const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   const movimiento = {
-    apertura: { y: 10, duration: 0.8, ease: 'power3.out' },
+    apertura: { y: 10, duration: 0.6, ease: 'power2.out' },
     cierre: { y: 6, duration: 0.6, ease: 'power2.in' },
   };
   let animacion;
