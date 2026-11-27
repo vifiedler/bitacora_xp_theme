@@ -2,11 +2,11 @@
 /** Panel compartido por los cuatro escenarios. */
 $pagina = get_page_by_path( 'controles', OBJECT, array( 'page' ) );
 $textos = array(
-	'titulo_movimiento'          => 'Movimiento e interacción',
+	'titulo_movimiento'          => 'Controles',
 	'descripcion_movimiento'     => 'Camina hasta una salida para cambiar de mapa.',
 	'etiqueta_movimiento'        => 'WASD / Flechas',
 	'etiqueta_interactuar'       => 'E / Enter',
-	'etiqueta_diario'            => 'J',
+	'etiqueta_diario'            => 'Abrir diario de descubrimiento',
 	'etiqueta_cerrar'            => 'Escape',
 	'etiqueta_ocultar_controles' => 'Ocultar controles',
 	'titulo_audio'               => 'Audio',
@@ -23,28 +23,41 @@ if ( $pagina && 'publish' === $pagina->post_status && function_exists( 'get_fiel
 		}
 	}
 }
+// Las primeras versiones de la página guardaban la tecla en esta etiqueta.
+if ( 'J' === strtoupper( trim( $textos['etiqueta_diario'] ) ) ) {
+	$textos['etiqueta_diario'] = 'Abrir diario de descubrimiento';
+}
 ?>
-<aside id="bitacora-xp-panel-controles" aria-label="Controles" class="position-fixed start-0 z-1 mw-100 d-flex align-items-start gap-1 p-1 small pe-none">
-	<section class="bg-body rounded p-2 overflow-auto pe-auto" aria-labelledby="bitacora-xp-titulo-movimiento">
-		<h2 id="bitacora-xp-titulo-movimiento" class="h6"><i class="bi bi-controller" aria-hidden="true"></i> <?php echo esc_html( $textos['titulo_movimiento'] ); ?></h2>
-		<button type="button" id="bitacora-xp-alternar-controles" class="btn btn-outline-secondary btn-sm pe-auto" aria-expanded="true" aria-controls="bitacora-xp-controles"><?php echo esc_html( $textos['etiqueta_ocultar_controles'] ); ?></button>
-		<div id="bitacora-xp-controles" class="mt-1">
-			<p class="mb-1"><?php echo esc_html( $textos['descripcion_movimiento'] ); ?></p>
+<div id="bitacora-xp-hud" class="position-fixed pe-none z-2" hidden>
+	<aside id="bitacora-xp-panel-controles" class="hud-caja" aria-labelledby="bitacora-xp-titulo-movimiento">
+		<header class="d-flex align-items-center justify-content-between gap-1">
+			<h2 id="bitacora-xp-titulo-movimiento"><?php echo esc_html( $textos['titulo_movimiento'] ); ?></h2>
+			<button type="button" id="bitacora-xp-alternar-controles" aria-controls="bitacora-xp-controles" aria-expanded="true"><?php echo esc_html( $textos['etiqueta_ocultar_controles'] ); ?></button>
+		</header>
+		<div id="bitacora-xp-controles">
+			<p class="visually-hidden"><?php echo esc_html( $textos['descripcion_movimiento'] ); ?></p>
 			<ul class="list-unstyled mb-0">
-				<li>Mover a Vicente <kbd><?php echo esc_html( $textos['etiqueta_movimiento'] ); ?></kbd></li>
-				<li>Interactuar <kbd><?php echo esc_html( $textos['etiqueta_interactuar'] ); ?></kbd></li>
-				<li>Abrir el diario <kbd><?php echo esc_html( $textos['etiqueta_diario'] ); ?></kbd></li>
-				<li>Cerrar <kbd><?php echo esc_html( $textos['etiqueta_cerrar'] ); ?></kbd></li>
+				<li><kbd><?php echo esc_html( $textos['etiqueta_movimiento'] ); ?></kbd> Mover</li>
+				<li><kbd><?php echo esc_html( $textos['etiqueta_interactuar'] ); ?></kbd> Interactuar</li>
+				<li><kbd id="bitacora-xp-tecla-diario"></kbd> <?php echo esc_html( $textos['etiqueta_diario'] ); ?></li>
+				<li><kbd><?php echo esc_html( $textos['etiqueta_cerrar'] ); ?></kbd> Cerrar</li>
 			</ul>
 		</div>
-	</section>
-	<section class="bg-body rounded p-2 overflow-auto pe-auto" aria-labelledby="bitacora-xp-titulo-audio">
-		<h2 id="bitacora-xp-titulo-audio" class="h6"><i class="bi bi-volume-up" aria-hidden="true"></i> <?php echo esc_html( $textos['titulo_audio'] ); ?></h2>
-		<p class="mb-1"><?php echo esc_html( $textos['descripcion_audio'] ); ?></p>
-		<ul class="list-inline mb-0">
+	</aside>
+	<nav class="hud-barra hud-caja d-flex align-items-stretch" aria-label="Navegación del escenario">
+		<a id="bitacora-xp-inicio" href="<?php echo esc_url( bitacora_xp_enlace_mapa( 'plaza-central' ) ); ?>"><i class="bi bi-house-fill" aria-hidden="true"></i> Inicio</a>
+		<button type="button" id="bitacora-xp-abrir-diario" aria-label="Abrir diario de descubrimiento"><i class="bi bi-book" aria-hidden="true"></i> Diario</button>
+		<button type="button" id="bitacora-xp-alternar-audio" aria-expanded="false" aria-controls="bitacora-xp-audio"><i class="bi bi-volume-up-fill" aria-hidden="true"></i> Audio</button>
+	</nav>
+	<section id="bitacora-xp-audio" class="hud-caja p-2 d-none" aria-labelledby="bitacora-xp-titulo-audio">
+		<h2 id="bitacora-xp-titulo-audio"><?php echo esc_html( $textos['titulo_audio'] ); ?></h2>
+		<p><?php echo esc_html( $textos['descripcion_audio'] ); ?></p>
+		<ul class="mb-0">
 			<?php foreach ( array( 'etiqueta_volumen', 'etiqueta_silenciar', 'etiqueta_activar_audio' ) as $campo ) : ?>
-				<li class="list-inline-item"><?php echo esc_html( $textos[ $campo ] ); ?></li>
+				<li><?php echo esc_html( $textos[ $campo ] ); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</section>
-</aside>
+	<p id="bitacora-xp-ubicacion" class="hud-caja m-0" aria-hidden="true"></p>
+	<p id="bitacora-xp-interaccion" class="hud-caja m-0" aria-hidden="true" hidden><kbd>E / Enter</kbd> Interactuar</p>
+</div>

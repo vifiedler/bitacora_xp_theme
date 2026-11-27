@@ -18,6 +18,21 @@
   let vicente;
   let teclas;
   let retirarEtiquetas;
+  const hud = document.getElementById('bitacora-xp-hud');
+  const aviso = document.getElementById('bitacora-xp-interaccion');
+  const teclaDiario = 'j';
+  document.getElementById('bitacora-xp-tecla-diario').textContent = teclaDiario.toUpperCase();
+  let objetoIndicado;
+
+  function indicar(objeto, tamano) {
+    if (objeto === objetoIndicado) return;
+    objetoIndicado = objeto;
+    aviso.hidden = !objeto;
+    if (objeto) {
+      aviso.style.setProperty('--centro', (objeto.x + objeto.width / 2) / tamano.width * 100 + '%');
+      aviso.style.bottom = (1 - objeto.y / tamano.height) * 100 + '%';
+    }
+  }
 
   function preload() {
     this.load.on('loaderror', (archivo) => {
@@ -57,6 +72,9 @@
     interactivos.length = 0;
     obstaculos.length = 0;
     mundo = slug;
+    indicar(null);
+    hud.dataset.mundo = slug;
+    document.getElementById('bitacora-xp-ubicacion').textContent = datos.nombre;
     fondo = imagen;
     salidas = mapa.layers.find((capa) => capa.name === 'salidas').objects;
     pisada = new Phaser.Geom.Rectangle(0, 0, 2 * mapa.tilewidth, mapa.tileheight);
@@ -99,7 +117,10 @@
     if (!mostrarMapa(this, mundoInicial, spawn)) return;
     const lectura = document.getElementById('bitacora-xp-lectura');
     const ubicarDialogo = () => {
-      const borde = this.game.canvas.getBoundingClientRect().bottom;
+      const rect = this.game.canvas.getBoundingClientRect();
+      Object.assign(hud.style, { left: rect.left + 'px', top: rect.top + 'px', width: rect.width + 'px', height: rect.height + 'px' });
+      hud.hidden = false;
+      const borde = rect.bottom;
       lectura.style.setProperty('--bitacora-bajo-canvas', Math.max(0, document.documentElement.clientHeight - borde) + 'px');
     };
     ubicarDialogo();
@@ -111,6 +132,18 @@
       mostrarMapa(this, destino.mundo, destino.spawn);
     };
     window.addEventListener('popstate', volver);
+    const inicio = document.getElementById('bitacora-xp-inicio');
+    const irAInicio = evento => {
+      if (evento.ctrlKey || evento.metaKey || evento.shiftKey || evento.altKey || evento.button !== 0) return;
+      evento.preventDefault();
+      const destino = 'plaza-central';
+      const llegada = config.mapas[destino].spawn;
+      if (mundo !== destino && mostrarMapa(this, destino, llegada)) {
+        history.pushState({ bitacoraXP: { mundo: destino, spawn: llegada } }, '', inicio.href);
+      }
+      contenedor.focus({ preventScroll: true });
+    };
+    inicio.addEventListener('click', irAInicio);
     const teclado = this.input.keyboard;
     teclas = teclado.addKeys('W,A,S,D,UP,LEFT,DOWN,RIGHT');
     const reiniciarTeclas = () => teclado.resetKeys();
@@ -121,6 +154,8 @@
       this.scale.off('resize', ubicarDialogo);
       retirarEtiquetas?.();
       window.removeEventListener('popstate', volver);
+      inicio.removeEventListener('click', irAInicio);
+      hud.hidden = true;
       contenedor.removeEventListener('blur', reiniciarTeclas);
       contenedor.removeEventListener('keydown', accionar);
       interactivos.length = 0;
@@ -146,7 +181,11 @@
   }
 
   function update(tiempo, delta) {
-    if (!vicente || document.activeElement !== contenedor) return;
+    if (!vicente || document.activeElement !== contenedor) {
+      indicar(null);
+      return;
+    }
+    indicar(interactivoCercano()?.objeto, this.scale.gameSize);
     const dx = Number(teclas.D.isDown || teclas.RIGHT.isDown) - Number(teclas.A.isDown || teclas.LEFT.isDown);
     const dy = Number(teclas.S.isDown || teclas.DOWN.isDown) - Number(teclas.W.isDown || teclas.UP.isDown);
     if (!dx && !dy) return;
@@ -174,14 +213,19 @@
   function accionar(evento) {
     if (evento.altKey || evento.metaKey || evento.ctrlKey) return;
     const tecla = evento.key.toLowerCase();
-    if (!['e', 'enter', 'j'].includes(tecla)) return;
+    if (!['e', 'enter', teclaDiario].includes(tecla)) return;
     evento.preventDefault();
     if (evento.repeat) return;
-    if (tecla === 'j') {
+    if (tecla === teclaDiario) {
       window.BitacoraXPLectura.abrirDiario();
       return;
     }
 
+    const cercano = interactivoCercano();
+    if (cercano) window.BitacoraXPLectura.interactuar(cercano.capa, cercano.objeto.name, mundo);
+  }
+
+  function interactivoCercano() {
     let cercano;
     let distanciaMinima = 36;
     for (const candidato of interactivos) {
@@ -194,8 +238,7 @@
         distanciaMinima = distancia;
       }
     }
-    if (!cercano) return;
-    window.BitacoraXPLectura.interactuar(cercano.capa, cercano.objeto.name, mundo);
+    return cercano;
   }
 
   new Phaser.Game({

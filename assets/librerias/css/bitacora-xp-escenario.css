@@ -12,15 +12,6 @@ body {
 	background-color: #9acda9;
 }
 
-#bitacora-xp-panel-controles {
-	top: var(--wp-admin--admin-bar--height, 0px);
-}
-
-#bitacora-xp-panel-controles > section {
-	min-width: 0;
-	max-height: calc(50dvh - var(--wp-admin--admin-bar--height, 0px));
-}
-
 #bitacora-xp-escenario canvas {
 	display: block;
 	image-rendering: pixelated;
@@ -51,4 +42,111 @@ body {
 .dialogo-parrafos > p {
 	grid-area: 1 / 1;
 	white-space: pre-wrap;
+}
+
+#bitacora-xp-hud {
+	--tinta: #182f38;
+	--crema: #fff8e2;
+	--acento: #b9d08b;
+	--margen: clamp(4px, 1.67cqw, 24px);
+	container-type: size;
+	color: var(--tinta);
+	font: 400 16px/1.5 "Roboto Mono", monospace;
+}
+#bitacora-xp-hud[data-mundo="gachavault"] { --acento: #ffa4ab; }
+#bitacora-xp-hud[data-mundo="sinapsis"] { --acento: #a78bfa; }
+#bitacora-xp-hud[data-mundo="entre-versos"] { --acento: #d4ff00; }
+
+.hud-caja {
+	position: absolute;
+	background: var(--crema);
+	border: 3px solid var(--tinta);
+	box-shadow: 4px 4px 0 rgb(19 45 54 / 42%);
+}
+#bitacora-xp-panel-controles {
+	top: var(--margen);
+	left: var(--margen);
+	width: min(292px, 96%);
+}
+#bitacora-xp-hud h2 {
+	margin: 0;
+	font: 700 24px/28px "Pixelify Sans", monospace;
+}
+#bitacora-xp-panel-controles header, .hud-barra, #bitacora-xp-ubicacion, #bitacora-xp-interaccion {
+	background: var(--tinta);
+	color: var(--crema);
+}
+#bitacora-xp-panel-controles header { padding: 4px 10px; }
+#bitacora-xp-hud :is(button, a) {
+	pointer-events: auto;
+	border: 0;
+	border-radius: 0;
+	color: inherit;
+	background: transparent;
+	font: 500 16px/1.5 "Roboto Mono", monospace;
+	text-decoration: none;
+}
+#bitacora-xp-hud :is(button, a):hover { background: #354b52; }
+#bitacora-xp-hud :is(button, a):active { color: #f4c65f; }
+#bitacora-xp-hud :is(button, a):focus-visible { outline: 3px solid #f4c65f; outline-offset: -3px; }
+#bitacora-xp-controles { padding: 0 11px; }
+#bitacora-xp-controles li {
+	display: grid;
+	grid-template-columns: 48% 1fr;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 0;
+	overflow-wrap: anywhere;
+}
+#bitacora-xp-controles li + li { border-top: 1px solid #d5d5be; }
+#bitacora-xp-hud kbd {
+	justify-self: start;
+	border: 1px solid #adb9a9;
+	border-radius: 0;
+	padding: 0 4px;
+	background: #ede8d3;
+	color: var(--tinta);
+	font: 700 16px/24px "Roboto Mono", monospace;
+}
+.hud-barra {
+	top: var(--margen);
+	right: var(--margen);
+	width: min(332px, 96%);
+	min-height: 52px;
+}
+.hud-barra > * { display: grid; grid-auto-flow: column; align-items: center; justify-content: center; gap: 5px; flex: 1; }
+#bitacora-xp-hud .hud-barra > * + * { border-left: 1px solid #546965; }
+#bitacora-xp-audio { right: var(--margen); top: calc(var(--margen) + 56px); width: min(332px, 96%); z-index: 2; }
+#bitacora-xp-ubicacion {
+	bottom: var(--margen);
+	left: var(--margen);
+	border: 0;
+	border-left: 8px solid var(--acento);
+	padding: 8px 20px 10px 13px;
+	font: 700 32px/36px "Pixelify Sans", monospace;
+}
+[data-mundo="plaza-central"] #bitacora-xp-ubicacion { width: 292px; }
+[data-mundo="gachavault"] #bitacora-xp-ubicacion { width: 238px; }
+[data-mundo="sinapsis"] #bitacora-xp-ubicacion { width: 202px; }
+[data-mundo="entre-versos"] #bitacora-xp-ubicacion { width: 274px; }
+#bitacora-xp-interaccion {
+	left: clamp(0px, calc(var(--centro) - 113.5px), 100% - 227px);
+	width: min(227px, 100%);
+	padding: 5px 8px;
+	text-align: center;
+}
+#bitacora-xp-interaccion kbd { color: #f4c65f; background: transparent; border: 0; }
+
+@container (max-width: 720px) {
+	.hud-barra { left: var(--margen); width: calc(100% - 2 * var(--margen)); min-height: 38px; }
+	#bitacora-xp-panel-controles { top: calc(var(--margen) + 42px); z-index: 1; }
+	#bitacora-xp-audio { top: calc(var(--margen) + 42px); }
+	#bitacora-xp-hud #bitacora-xp-ubicacion { width: auto; font-size: 24px; line-height: 28px; padding-block: 2px; }
+}
+@media (max-aspect-ratio: 1/1) and (max-width: 720px) {
+	/* Aprovecha las bandas de Phaser sin tapar el mapa en vertical. */
+	.hud-barra { top: auto; bottom: calc(100% + 4px); }
+	#bitacora-xp-panel-controles { top: 0; }
+	#bitacora-xp-audio { top: 0; }
+	#bitacora-xp-hud #bitacora-xp-ubicacion { top: calc(100% + 4px); bottom: auto; }
 }
