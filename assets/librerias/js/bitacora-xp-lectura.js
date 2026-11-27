@@ -116,6 +116,9 @@
       if (turno !== consulta || !panel.open) return;
       titulo.textContent = lectura.titulo;
       contenido.replaceChildren(lectura.cuerpo);
+      if (tipo === 'diario') {
+        bootstrap.Tab.getOrCreateInstance(contenido.querySelector('[role="tab"]')).show();
+      }
     } catch (error) {
       if (turno !== consulta || !panel.open) return;
       lecturaActual = null;
@@ -125,17 +128,7 @@
   }
 
   function abrirDiario() {
-    mostrar('Diario de descubrimientos', 'diario', async () => {
-      const { descubrimientos } = await BitacoraXPDescubrimientos.obtenerTodos();
-      const cuerpo = document.createDocumentFragment();
-      for (const entrada of descubrimientos) {
-        const detalle = document.createElement('details');
-        detalle.append(elemento('summary', entrada.titulo), elemento('p', entrada.contenido));
-        cuerpo.append(detalle);
-      }
-      if (!descubrimientos.length) cuerpo.append('Todavía no hay descubrimientos publicados.');
-      return { titulo: 'Diario de descubrimientos', cuerpo };
-    });
+    mostrar('Diario de descubrimientos', 'diario', BitacoraXPDiario.leer);
   }
 
   function interactuar(capa, codigo, mundo) {
@@ -149,9 +142,10 @@
           return { hablante: npc.nombre, texto: npc.dialogo };
         }
         const { descubrimientos } = await BitacoraXPDescubrimientos.obtenerTodos();
-        const entrada = descubrimientos.find((extra) => extra.codigo === codigo);
+        const entrada = descubrimientos.find((extra) => extra.codigo === codigo && extra.mundo === mundo);
         if (!entrada) throw new Error('Descubrimiento sin datos: ' + codigo);
-        return { hablante: entrada.titulo, texto: entrada.contenido };
+        return { hablante: entrada.titulo, texto: entrada.contenido,
+          alPresentar: () => BitacoraXPDiario.registrar(entrada.codigo, descubrimientos) };
       });
       return;
     }

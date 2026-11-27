@@ -205,6 +205,7 @@
       const partes = separarParrafos(lectura.texto);
       if (!partes.length) throw new Error('El contenido del diálogo está vacío.');
       presentar(lectura.hablante, partes);
+      lectura.alPresentar?.();
     } catch (error) {
       if (sesion.aborted || estado !== 'opening') return;
       console.error('[Bitácora XP] Error de lectura:', error);

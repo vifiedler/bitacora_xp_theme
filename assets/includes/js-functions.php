@@ -108,10 +108,18 @@ function bitacora_xp_cargar_js() {
             true
         );
         $ruta_lectura = '/assets/librerias/js/bitacora-xp-lectura.js';
+        $ruta_diario = '/assets/librerias/js/bitacora-xp-diario.js';
+        wp_enqueue_script(
+            'bitacora-xp-diario',
+            get_template_directory_uri() . $ruta_diario,
+            array( 'bitacora-xp-descubrimientos', 'bitacora-xp-bootstrap' ),
+            (string) filemtime( get_template_directory() . $ruta_diario ),
+            true
+        );
         wp_enqueue_script(
             'bitacora-xp-lectura',
             get_template_directory_uri() . $ruta_lectura,
-            array( 'bitacora-xp-rest', 'bitacora-xp-descubrimientos', 'bitacora-xp-dompurify', 'bitacora-xp-gsap', 'bitacora-xp-dialogo' ),
+            array( 'bitacora-xp-rest', 'bitacora-xp-descubrimientos', 'bitacora-xp-dompurify', 'bitacora-xp-gsap', 'bitacora-xp-dialogo', 'bitacora-xp-diario' ),
             (string) filemtime( get_template_directory() . $ruta_lectura ),
             true
         );
