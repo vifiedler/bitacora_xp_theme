@@ -66,17 +66,18 @@ body {
 #bitacora-xp-panel-controles {
 	top: var(--margen);
 	left: var(--margen);
-	width: min(292px, 96%);
+	width: min(324px, 96%);
 }
 #bitacora-xp-hud h2 {
 	margin: 0;
 	font: 700 24px/28px "Pixelify Sans", monospace;
 }
-#bitacora-xp-panel-controles header, .hud-barra, #bitacora-xp-ubicacion, #bitacora-xp-interaccion {
+.hud-titulo-controles, .hud-barra, #bitacora-xp-ubicacion, #bitacora-xp-interaccion {
 	background: var(--tinta);
 	color: var(--crema);
 }
-#bitacora-xp-panel-controles header { padding: 4px 10px; }
+.hud-titulo-controles { padding: 3px 10px; }
+#bitacora-xp-alternar-controles { padding: 2px 4px; }
 #bitacora-xp-hud :is(button, a) {
 	pointer-events: auto;
 	border: 0;
@@ -89,21 +90,13 @@ body {
 #bitacora-xp-hud :is(button, a):hover { background: #354b52; }
 #bitacora-xp-hud :is(button, a):active { color: #f4c65f; }
 #bitacora-xp-hud :is(button, a):focus-visible { outline: 3px solid #f4c65f; outline-offset: -3px; }
-#bitacora-xp-controles { padding: 0 11px; }
-#bitacora-xp-controles li {
-	display: grid;
-	grid-template-columns: 48% 1fr;
-	align-items: center;
-	gap: 8px;
-	padding: 4px 0;
-	overflow-wrap: anywhere;
-}
-#bitacora-xp-controles li + li { border-top: 1px solid #d5d5be; }
+#bitacora-xp-controles { padding: 0 11px; background-color: var(--crema); }
+#bitacora-xp-controles .row + .row { border-top: 1px solid #d5d5be; }
 #bitacora-xp-hud kbd {
-	justify-self: start;
+	display: inline-block;
 	border: 1px solid #adb9a9;
 	border-radius: 0;
-	padding: 0 4px;
+	padding: 0 6px;
 	background: #ede8d3;
 	color: var(--tinta);
 	font: 700 16px/24px "Roboto Mono", monospace;

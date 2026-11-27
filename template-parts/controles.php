@@ -30,18 +30,18 @@ if ( 'J' === strtoupper( trim( $textos['etiqueta_diario'] ) ) ) {
 ?>
 <div id="bitacora-xp-hud" class="position-fixed pe-none z-2" hidden>
 	<aside id="bitacora-xp-panel-controles" class="hud-caja" aria-labelledby="bitacora-xp-titulo-movimiento">
-		<header class="d-flex align-items-center justify-content-between gap-1">
+		<div class="hud-titulo-controles d-flex align-items-center justify-content-between gap-1">
 			<h2 id="bitacora-xp-titulo-movimiento"><?php echo esc_html( $textos['titulo_movimiento'] ); ?></h2>
 			<button type="button" id="bitacora-xp-alternar-controles" aria-controls="bitacora-xp-controles" aria-expanded="true"><?php echo esc_html( $textos['etiqueta_ocultar_controles'] ); ?></button>
-		</header>
-		<div id="bitacora-xp-controles">
+		</div>
+		<div id="bitacora-xp-controles" class="text-start">
 			<p class="visually-hidden"><?php echo esc_html( $textos['descripcion_movimiento'] ); ?></p>
-			<ul class="list-unstyled mb-0">
-				<li><kbd><?php echo esc_html( $textos['etiqueta_movimiento'] ); ?></kbd> Mover</li>
-				<li><kbd><?php echo esc_html( $textos['etiqueta_interactuar'] ); ?></kbd> Interactuar</li>
-				<li><kbd id="bitacora-xp-tecla-diario"></kbd> <?php echo esc_html( $textos['etiqueta_diario'] ); ?></li>
-				<li><kbd><?php echo esc_html( $textos['etiqueta_cerrar'] ); ?></kbd> Cerrar</li>
-			</ul>
+			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><?php foreach ( array_filter( array_map( 'trim', explode( '/', $textos['etiqueta_movimiento'] ) ) ) as $teclas ) : ?>
+					<kbd><?php if ( 'flechas' === strtolower( $teclas ) ) : ?><span aria-hidden="true">↑↓←→</span><span class="visually-hidden"><?php echo esc_html( $teclas ); ?></span><?php else : ?><?php echo esc_html( $teclas ); ?><?php endif; ?></kbd>
+				<?php endforeach; ?></span> <span class="col">Mover</span></p>
+			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd><?php echo esc_html( $textos['etiqueta_interactuar'] ); ?></kbd></span> <span class="col">Interactuar</span></p>
+			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd id="bitacora-xp-tecla-diario"></kbd></span> <span class="col"><?php echo esc_html( $textos['etiqueta_diario'] ); ?></span></p>
+			<p class="row row-cols-2 g-0 align-items-center m-0 py-1 lh-sm"><span class="col pe-1"><kbd><?php echo esc_html( $textos['etiqueta_cerrar'] ); ?></kbd></span> <span class="col">Cerrar</span></p>
 		</div>
 	</aside>
 	<nav class="hud-barra hud-caja d-flex align-items-stretch" aria-label="Navegación del escenario">
