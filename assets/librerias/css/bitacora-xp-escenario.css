@@ -29,8 +29,9 @@ body {
 }
 
 #bitacora-xp-lectura[data-dialogo] {
-	inset: auto 0 0;
+	inset: auto 0 var(--bitacora-bajo-canvas, 0px);
 	margin: 0 auto;
+	max-height: min(80vh, calc(100dvh - var(--bitacora-bajo-canvas, 0px) - 3rem - var(--wp-admin--admin-bar--height, 0px)));
 }
 
 #bitacora-xp-lectura[data-dialogo] > .contenido-lectura {

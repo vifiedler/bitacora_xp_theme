@@ -5,6 +5,7 @@
   if (!vista) return;
   const panel = vista.closest('dialog');
   const nombre = vista.querySelector('h2');
+  const contador = vista.querySelector('.dialogo-contador');
   const texto = vista.querySelector('.dialogo-texto');
   const anuncio = vista.querySelector('.dialogo-anuncio');
   const boton = vista.querySelector('button');
@@ -48,14 +49,15 @@
     texto.textContent = parrafos[indice];
     anuncio.textContent = parrafos[indice];
     estado = 'waiting';
-    boton.textContent = indice + 1 === parrafos.length ? 'Cerrar · E / Enter' : 'Continuar · E / Enter';
+    boton.textContent = indice + 1 === parrafos.length ? 'Cerrar - E / Enter' : 'Continuar - E / Enter';
   }
 
   function escribir() {
     estado = 'typing';
     texto.textContent = '';
     anuncio.textContent = '';
-    boton.textContent = 'Completar · E / Enter';
+    if (parrafos.length > 1) contador.textContent = `Párrafo ${indice + 1} de ${parrafos.length}`;
+    boton.textContent = 'Completar - E / Enter';
     if (reducido.matches) {
       completar();
       return;
@@ -84,9 +86,12 @@
     if (panel.open) panel.close();
     vista.hidden = true;
     panel.removeAttribute('data-dialogo');
+    panel.classList.remove('mb-5');
     panel.setAttribute('aria-labelledby', tituloOriginal);
     texto.parentElement.replaceChildren(texto);
     texto.textContent = anuncio.textContent = nombre.textContent = '';
+    contador.hidden = true;
+    contador.textContent = '';
     parrafos = [];
     estado = 'closed';
     panel.dispatchEvent(new CustomEvent('bitacora:dialogo-cerrado', { bubbles: true }));
@@ -131,14 +136,14 @@
     });
   }
 
-  function abrir(hablante, cadena) {
-    if (estado !== 'closed' || panel.open || typeof cadena !== 'string') return false;
-    parrafos = separarParrafos(cadena);
-    if (!parrafos.length) return false;
+  function presentar(hablante, partes) {
+    parrafos = partes;
     indice = 0;
-    estado = 'opening';
     nombre.textContent = hablante;
-    boton.textContent = 'Completar · E / Enter';
+    contador.hidden = parrafos.length === 1;
+    if (!contador.hidden) contador.textContent = `Párrafo 1 de ${parrafos.length}`;
+    boton.hidden = false;
+    boton.textContent = 'Completar - E / Enter';
     for (const parrafo of parrafos) {
       const medida = document.createElement('p');
       medida.className = 'invisible mb-0';
@@ -146,11 +151,27 @@
       medida.textContent = parrafo;
       texto.parentElement.append(medida);
     }
+    boton.focus({ preventScroll: true });
+    if (reducido.matches) escribir();
+    else {
+      animacion = gsap.fromTo(panel, { opacity: 0, y: 8 }, {
+        opacity: 1, y: 0, duration: tiempos.apertura, ease: 'power3.out', onComplete: escribir,
+      });
+    }
+  }
+
+  function abrir(hablante, fuente) {
+    if (estado !== 'closed' || panel.open) return false;
+    const partes = typeof fuente === 'string' ? separarParrafos(fuente) : [];
+    if (!partes.length && typeof fuente !== 'function') return false;
+    estado = 'opening';
     vista.hidden = false;
+    nombre.textContent = hablante;
+    boton.hidden = !partes.length;
+    panel.classList.add('mb-5');
     panel.setAttribute('data-dialogo', '');
     panel.setAttribute('aria-labelledby', nombre.id);
     panel.showModal();
-    boton.focus({ preventScroll: true });
     eventos = new AbortController();
     const opciones = { signal: eventos.signal };
     boton.addEventListener('click', avanzar, opciones);
@@ -160,14 +181,25 @@
       animacion?.progress(1);
       completar();
     }, opciones);
-    if (reducido.matches) escribir();
-    else {
-      animacion = gsap.fromTo(panel, { opacity: 0, y: 8 }, {
-        opacity: 1, y: 0, duration: tiempos.apertura, ease: 'power3.out', onComplete: escribir,
-      });
-    }
+    if (partes.length) presentar(hablante, partes);
+    else cargar(hablante, fuente, eventos.signal);
     panel.dispatchEvent(new CustomEvent('bitacora:dialogo-abierto', { bubbles: true }));
     return true;
+  }
+
+  async function cargar(hablante, obtener, sesion) {
+    texto.textContent = anuncio.textContent = 'Cargando…';
+    try {
+      const lectura = await obtener();
+      if (sesion.aborted || estado !== 'opening') return;
+      const partes = separarParrafos(lectura.texto);
+      if (!partes.length) throw new Error('El contenido del diálogo está vacío.');
+      presentar(lectura.hablante, partes);
+    } catch (error) {
+      if (sesion.aborted || estado !== 'opening') return;
+      console.error('[Bitácora XP] Error de lectura:', error);
+      presentar(hablante, ['No se pudo cargar el contenido. Cierra y vuelve a intentarlo.']);
+    }
   }
 
   window.BitacoraXPDialogo = Object.freeze({ abrir, avanzar, cerrar, get estado() { return estado; } });

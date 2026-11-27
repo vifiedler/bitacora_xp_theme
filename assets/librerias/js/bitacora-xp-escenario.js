@@ -96,11 +96,17 @@
     const entrada = history.state?.bitacoraXP;
     const spawn = entrada?.mundo === mundoInicial ? entrada.spawn : config.mapas[mundoInicial].spawn;
     if (!mostrarMapa(this, mundoInicial, spawn)) return;
+    const lectura = document.getElementById('bitacora-xp-lectura');
+    const ubicarDialogo = () => {
+      const borde = this.game.canvas.getBoundingClientRect().bottom;
+      lectura.style.setProperty('--bitacora-bajo-canvas', Math.max(0, document.documentElement.clientHeight - borde) + 'px');
+    };
+    ubicarDialogo();
+    this.scale.on('resize', ubicarDialogo);
     history.replaceState({ ...history.state, bitacoraXP: { mundo, spawn } }, '');
     const volver = (evento) => {
       const destino = evento.state?.bitacoraXP;
       if (!destino || !config.mapas[destino.mundo]) return;
-      const lectura = document.getElementById('bitacora-xp-lectura');
       if (lectura.open) lectura.close();
       mostrarMapa(this, destino.mundo, destino.spawn);
     };
@@ -111,6 +117,7 @@
     contenedor.addEventListener('blur', reiniciarTeclas);
     contenedor.addEventListener('keydown', accionar);
     this.events.once('shutdown', () => {
+      this.scale.off('resize', ubicarDialogo);
       retirarEtiquetas?.();
       window.removeEventListener('popstate', volver);
       contenedor.removeEventListener('blur', reiniciarTeclas);

@@ -129,18 +129,23 @@
   }
 
   function interactuar(capa, codigo, mundo) {
-    mostrar('Interacción', capa, async () => {
-      if (capa === 'npc') {
-        const npc = await BitacoraXPData.obtenerNPC(mundo, codigo);
-        if (!npc) throw new Error('NPC sin datos: ' + codigo);
-        return { titulo: npc.nombre, cuerpo: textoWordPress(npc.dialogo) };
-      }
-      if (capa === 'descubrimientos') {
+    if (panel.open) return;
+    if (capa === 'npc' || capa === 'descubrimientos') {
+      ++consulta;
+      BitacoraXPDialogo.abrir(capa === 'npc' ? 'Personaje' : 'Descubrimiento', async () => {
+        if (capa === 'npc') {
+          const npc = await BitacoraXPData.obtenerNPC(mundo, codigo);
+          if (!npc) throw new Error('NPC sin datos: ' + codigo);
+          return { hablante: npc.nombre, texto: npc.dialogo };
+        }
         const { descubrimientos } = await BitacoraXPDescubrimientos.obtenerTodos();
         const entrada = descubrimientos.find((extra) => extra.codigo === codigo);
         if (!entrada) throw new Error('Descubrimiento sin datos: ' + codigo);
-        return { titulo: entrada.titulo, cuerpo: elemento('p', entrada.contenido) };
-      }
+        return { hablante: entrada.titulo, texto: entrada.contenido };
+      });
+      return;
+    }
+    mostrar('Interacción', capa, async () => {
       const hitos = await BitacoraXPData.obtenerTodosHitos();
       const hito = hitos.find((entrada) => entrada.codigo === codigo);
       if (!hito) throw new Error('Hito sin datos: ' + codigo);
@@ -153,26 +158,29 @@
         parrafo.append(relato);
         cuerpo.append(parrafo);
       }
+      const cerrar = elemento('button', 'Cerrar - E / Enter');
+      cerrar.type = 'submit';
+      cerrar.setAttribute('form', 'bitacora-xp-cierre');
+      cerrar.className = 'btn btn-link btn-sm mt-2';
+      cuerpo.append(cerrar);
       return { titulo: textoWordPress(hito.titulo).textContent, cuerpo, reflexion: hito.queAprendi };
     });
   }
 
   panel.addEventListener('keydown', (evento) => {
-    if (panel.hasAttribute('data-dialogo')) {
-      if (evento.ctrlKey || evento.altKey || evento.metaKey || evento.isComposing) return;
-      if (evento.key === 'Escape' && evento.repeat) evento.preventDefault();
-      if (evento.key.toLowerCase() === 'e' || evento.key === 'Enter') {
-        evento.preventDefault();
-        evento.stopPropagation();
-        if (!evento.repeat) BitacoraXPDialogo.avanzar();
-      }
-      return;
-    }
-    if (tipoLectura === 'hitos' && evento.key === 'Enter' && evento.repeat) {
+    if (evento.ctrlKey || evento.altKey || evento.metaKey || evento.isComposing) return;
+    const narrativo = panel.hasAttribute('data-dialogo');
+    const tecla = evento.key.toLowerCase();
+    if (narrativo && tecla === 'escape' && evento.repeat) evento.preventDefault();
+    if ((narrativo || tipoLectura === 'hitos') && (tecla === 'e' || tecla === 'enter')) {
       evento.preventDefault();
+      evento.stopPropagation();
+      if (evento.repeat) return;
+      if (narrativo) BitacoraXPDialogo.avanzar();
+      else solicitarCierre(evento);
       return;
     }
-    if (evento.key.toLowerCase() !== 'j' || evento.ctrlKey || evento.altKey || evento.metaKey) return;
+    if (narrativo || tecla !== 'j') return;
     evento.preventDefault();
     if (evento.repeat) return;
     if (tipoLectura === 'diario') panel.close();
