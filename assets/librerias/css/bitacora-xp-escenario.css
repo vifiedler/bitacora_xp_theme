@@ -101,7 +101,7 @@ body {
 .hud-movimiento { gap: min(6px, 1cqw); }
 #bitacora-xp-controles .hud-movimiento kbd { min-width: min(60px, 47%); }
 #bitacora-xp-controles kbd:only-child:not([id]) { padding-inline: 12px; }
-#bitacora-xp-controles .hud-movimiento kbd + kbd { min-width: min(62px, 48%); }
+#bitacora-xp-controles .hud-movimiento kbd + kbd { min-width: max-content; }
 #bitacora-xp-hud kbd {
 	display: inline-block;
 	border: 1px solid #adb9a9;
