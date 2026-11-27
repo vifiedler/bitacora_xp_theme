@@ -14,6 +14,10 @@ $mapas = bitacora_xp_mapas();
 		<button class="btn-close" aria-label="<?php esc_attr_e( 'Cerrar', 'bitacora_xp_theme' ); ?>"></button>
 	</form>
 	<h2 id="bitacora-xp-titulo" class="h4 me-5 d-none"><?php echo get_the_title();?></h2>
+	<header class="diario-cabecera align-items-center" hidden>
+		<i class="bi bi-book flex-shrink-0" aria-hidden="true"></i>
+		<h2 id="diario-encabezado" class="flex-grow-1 mb-0">Diario de descubrimientos</h2>
+	</header>
 	<div class="contenido-lectura" aria-live="polite"></div>
 	<section id="bitacora-xp-dialogo" hidden aria-labelledby="bitacora-xp-hablante">
 		<div class="d-flex align-items-start justify-content-between gap-2">
@@ -32,7 +36,6 @@ $mapas = bitacora_xp_mapas();
 </dialog>
 <template id="bitacora-xp-plantilla-diario">
 	<section aria-labelledby="diario-encabezado">
-		<h2 id="diario-encabezado" class="h4 me-5">Diario de descubrimientos</h2>
 		<?php $pestanas = array( 'total' => 'Total', 'gachavault' => 'GachaVault', 'sinapsis' => 'SINAPSIS', 'entre-versos' => 'Entre Versos' ); ?>
 		<div class="nav nav-tabs flex-wrap" role="tablist" aria-label="Progreso de exploración">
 			<?php foreach ( $pestanas as $slug => $nombre ) : ?>

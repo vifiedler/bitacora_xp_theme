@@ -4,6 +4,10 @@
   const panel = document.getElementById('bitacora-xp-lectura');
   if (!panel) return;
   const titulo = panel.querySelector('h2');
+  const cabecera = panel.querySelector('.diario-cabecera');
+  const formulario = panel.querySelector('form[method="dialog"]');
+  const botonCerrar = formulario.querySelector('button');
+  const nombreCerrar = botonCerrar.getAttribute('aria-label');
   const contenido = panel.querySelector('.contenido-lectura');
   const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   const movimiento = {
@@ -46,6 +50,22 @@
   let lecturaActual;
   let consulta = 0;
 
+  function mostrarCabeceraDiario(visible) {
+    if (visible === panel.hasAttribute('data-diario')) return;
+    const conservarFoco = panel.open && document.activeElement === botonCerrar;
+    panel.toggleAttribute('data-diario', visible);
+    cabecera.hidden = !visible;
+    cabecera.classList.toggle('d-flex', visible);
+    botonCerrar.type = visible ? 'button' : 'submit';
+    botonCerrar.classList.toggle('btn-close', !visible);
+    botonCerrar.textContent = visible ? 'Cerrar' : '';
+    botonCerrar.setAttribute('aria-label', visible ? 'Cerrar diario de descubrimientos' : nombreCerrar);
+    panel.setAttribute('aria-labelledby', visible ? 'diario-encabezado' : titulo.id);
+    if (visible) cabecera.append(formulario);
+    else panel.prepend(formulario);
+    if (conservarFoco) botonCerrar.focus({ preventScroll: true });
+  }
+
   function limpiarAnimacion() {
     if (!animacion) return;
     animacion.kill();
@@ -58,7 +78,7 @@
     limpiarAnimacion();
     detenerScroll();
     delete panel.dataset.hito;
-    delete panel.dataset.diario;
+    mostrarCabeceraDiario(false);
     lecturaActual = null;
     tipoLectura = null;
     cerrando = false;
@@ -106,7 +126,10 @@
   }
 
   panel.addEventListener('cancel', solicitarCierre);
-  panel.querySelector('form[method="dialog"]').addEventListener('submit', solicitarCierre);
+  formulario.addEventListener('submit', solicitarCierre);
+  botonCerrar.addEventListener('click', () => {
+    if (botonCerrar.type === 'button') formulario.requestSubmit();
+  });
   panel.addEventListener('close', () => {
     if (!panel.open) limpiarLectura();
   });
@@ -140,8 +163,8 @@
     if (tipo === 'hitos') panel.dataset.hito = '';
     titulo.textContent = tituloInicial;
     contenido.textContent = 'Cargando…';
+    mostrarCabeceraDiario(tipo === 'diario');
     if (!panel.open) panel.showModal();
-    panel.toggleAttribute('data-diario', tipo === 'diario');
     panel.scrollTop = 0;
     if (tipo === 'hitos' && !movimientoReducido.matches) {
       const { y, duration, ease } = movimiento.apertura;
@@ -160,7 +183,7 @@
       }
     } catch (error) {
       if (turno !== consulta || !panel.open) return;
-      delete panel.dataset.diario;
+      mostrarCabeceraDiario(false);
       lecturaActual = null;
       contenido.textContent = 'No se pudo cargar el contenido. Cierra y vuelve a intentarlo.';
       console.error('[Bitácora XP] Error de lectura:', error);
@@ -174,7 +197,7 @@
   function interactuar(capa, codigo, mundo) {
     if (panel.open) return;
     if (capa === 'npc' || capa === 'descubrimientos') {
-      delete panel.dataset.diario;
+      mostrarCabeceraDiario(false);
       ++consulta;
       BitacoraXPDialogo.abrir(capa === 'npc' ? 'Personaje' : 'Descubrimiento', async () => {
         if (capa === 'npc') {
