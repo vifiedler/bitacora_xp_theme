@@ -45,9 +45,9 @@ $mapas = bitacora_xp_mapas();
 
     $pestana_inicial = 'gachavault';
     ?>
-    <section class="diario-interior row g-0 flex-nowrap" aria-labelledby="diario-encabezado">
-        <nav class="diario-indice col-5 col-sm-3" aria-label="Índice del diario">
-            <div class="nav nav-tabs flex-column" role="tablist" aria-orientation="vertical" aria-label="Progreso de exploración">
+    <div class="diario-interior row g-0 flex-nowrap flex-column flex-lg-row">
+        <nav class="diario-indice col-12 col-lg-3" aria-label="Índice del diario">
+            <div class="nav nav-tabs d-grid d-lg-flex flex-column" role="tablist" aria-orientation="vertical" aria-label="Progreso de exploración">
                 <?php foreach ( $pestanas as $slug => $nombre ) : ?>
                     <?php $activa = ( $pestana_inicial === $slug ); ?>
                     <button
@@ -95,5 +95,5 @@ $mapas = bitacora_xp_mapas();
                 </section>
             <?php endforeach; ?>
         </div>
-    </section>
+    </div>
 </template>

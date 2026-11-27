@@ -54,6 +54,7 @@
     if (visible === panel.hasAttribute('data-diario')) return;
     const conservarFoco = panel.open && document.activeElement === botonCerrar;
     panel.toggleAttribute('data-diario', visible);
+    contenido.setAttribute('aria-live', visible ? 'off' : 'polite');
     cabecera.hidden = !visible;
     cabecera.classList.toggle('d-flex', visible);
     botonCerrar.type = visible ? 'button' : 'submit';

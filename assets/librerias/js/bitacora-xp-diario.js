@@ -118,10 +118,14 @@
           lista.append(item);
         }
         panel.querySelector('.diario-listas').append(lista);
+        const grupo = document.createElement('section');
         const nombre = document.createElement('h4');
-        nombre.className = 'h6';
+        nombre.id = 'diario-total-grupo-' + panel.dataset.mundo;
+        nombre.className = 'diario-titulo-grupo mb-2';
         nombre.textContent = vista.querySelector('#' + panel.getAttribute('aria-labelledby')).textContent;
-        total.append(nombre, lista.cloneNode(true));
+        grupo.setAttribute('aria-labelledby', nombre.id);
+        grupo.append(nombre, lista.cloneNode(true));
+        total.append(grupo);
       }
     }
     recuperar();
