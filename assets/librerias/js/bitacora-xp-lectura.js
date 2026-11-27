@@ -23,6 +23,21 @@
     gsap.set(panel, { clearProps: 'opacity,transform' });
   }
 
+  function limpiarLectura() {
+    ++consulta;
+    limpiarAnimacion();
+    lecturaActual = null;
+    tipoLectura = null;
+    cerrando = false;
+    contenido.replaceChildren();
+  }
+
+  function cancelar() {
+    limpiarLectura();
+    BitacoraXPDialogo.cancelar();
+    if (panel.open) panel.close();
+  }
+
   function solicitarCierre(evento) {
     if (panel.hasAttribute('data-dialogo')) {
       evento.preventDefault();
@@ -35,18 +50,15 @@
     cerrando = true;
     const turno = ++consulta;
     const pendiente = lecturaActual;
-    const escenario = document.getElementById('bitacora-xp-escenario');
-    const mundo = escenario.dataset.mundo;
-    async function terminarCierre() {
+    function terminarCierre() {
       if (!panel.open || turno !== consulta) return;
-      limpiarAnimacion();
+      limpiarLectura();
       panel.close();
-      cerrando = false;
-      const lectura = await pendiente.catch(() => null);
-      if (turno === consulta && mundo === escenario.dataset.mundo && !panel.open && lectura?.reflexion) {
-        contenido.replaceChildren();
-        BitacoraXPDialogo.abrir('¿Qué aprendí?', lectura.reflexion);
-      }
+      if (!pendiente) return;
+      BitacoraXPDialogo.abrir('¿Qué aprendí?', async () => {
+        const lectura = await pendiente.catch(() => null);
+        return lectura?.reflexion ? { hablante: '¿Qué aprendí?', texto: lectura.reflexion } : null;
+      });
     }
     if (movimientoReducido.matches) {
       terminarCierre();
@@ -62,9 +74,7 @@
   panel.addEventListener('cancel', solicitarCierre);
   panel.querySelector('form[method="dialog"]').addEventListener('submit', solicitarCierre);
   panel.addEventListener('close', () => {
-    if (panel.open) return;
-    limpiarAnimacion();
-    cerrando = false;
+    if (!panel.open) limpiarLectura();
   });
   movimientoReducido.addEventListener('change', () => {
     if (movimientoReducido.matches) animacion?.progress(1);
@@ -85,8 +95,7 @@
   }
 
   async function mostrar(tituloInicial, tipo, cargar) {
-    if (panel.hasAttribute('data-dialogo')) return;
-    if (panel.open && (cerrando || tipo !== 'diario' || tipoLectura === 'diario')) return;
+    if (panel.open) return;
     limpiarAnimacion();
     cerrando = false;
     const turno = ++consulta;
@@ -109,6 +118,7 @@
       contenido.replaceChildren(lectura.cuerpo);
     } catch (error) {
       if (turno !== consulta || !panel.open) return;
+      lecturaActual = null;
       contenido.textContent = 'No se pudo cargar el contenido. Cierra y vuelve a intentarlo.';
       console.error('[Bitácora XP] Error de lectura:', error);
     }
@@ -167,11 +177,16 @@
     });
   }
 
-  panel.addEventListener('keydown', (evento) => {
-    if (evento.ctrlKey || evento.altKey || evento.metaKey || evento.isComposing) return;
+  document.addEventListener('keydown', (evento) => {
+    if (!panel.open || evento.ctrlKey || evento.altKey || evento.metaKey || evento.isComposing) return;
     const narrativo = panel.hasAttribute('data-dialogo');
     const tecla = evento.key.toLowerCase();
-    if (narrativo && tecla === 'escape' && evento.repeat) evento.preventDefault();
+    if (narrativo && tecla === 'escape') {
+      evento.preventDefault();
+      evento.stopPropagation();
+      if (!evento.repeat) BitacoraXPDialogo.cerrar();
+      return;
+    }
     if ((narrativo || tipoLectura === 'hitos') && (tecla === 'e' || tecla === 'enter')) {
       evento.preventDefault();
       evento.stopPropagation();
@@ -180,12 +195,12 @@
       else solicitarCierre(evento);
       return;
     }
-    if (narrativo || tecla !== 'j') return;
+    if (tecla !== 'j') return;
     evento.preventDefault();
+    evento.stopPropagation();
     if (evento.repeat) return;
-    if (tipoLectura === 'diario') panel.close();
-    else abrirDiario();
-  });
+    if (!narrativo && tipoLectura === 'diario') panel.close();
+  }, true);
 
-  window.BitacoraXPLectura = Object.freeze({ abrirDiario, interactuar });
+  window.BitacoraXPLectura = Object.freeze({ abrirDiario, interactuar, cancelar });
 }());

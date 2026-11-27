@@ -52,6 +52,7 @@
       return false;
     }
 
+    if (mundo) BitacoraXPLectura.cancelar();
     elementos.clear(true, true);
     interactivos.length = 0;
     obstaculos.length = 0;
@@ -107,7 +108,6 @@
     const volver = (evento) => {
       const destino = evento.state?.bitacoraXP;
       if (!destino || !config.mapas[destino.mundo]) return;
-      if (lectura.open) lectura.close();
       mostrarMapa(this, destino.mundo, destino.spawn);
     };
     window.addEventListener('popstate', volver);
@@ -117,6 +117,7 @@
     contenedor.addEventListener('blur', reiniciarTeclas);
     contenedor.addEventListener('keydown', accionar);
     this.events.once('shutdown', () => {
+      BitacoraXPLectura.cancelar();
       this.scale.off('resize', ubicarDialogo);
       retirarEtiquetas?.();
       window.removeEventListener('popstate', volver);

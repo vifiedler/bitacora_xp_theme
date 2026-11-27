@@ -4,6 +4,7 @@
   const vista = document.getElementById('bitacora-xp-dialogo');
   if (!vista) return;
   const panel = vista.closest('dialog');
+  const escenario = document.getElementById('bitacora-xp-escenario');
   const nombre = vista.querySelector('h2');
   const contador = vista.querySelector('.dialogo-contador');
   const texto = vista.querySelector('.dialogo-texto');
@@ -78,15 +79,19 @@
   }
 
   function finalizar() {
+    if (estado === 'closed') return;
     eventos.abort();
+    eventos = null;
     detenerEscritura();
     animacion?.kill();
     animacion = null;
     gsap.set([panel, texto], { clearProps: 'opacity,transform' });
+    escenario.inert = false;
     if (panel.open) panel.close();
+    if (document.activeElement === document.body) escenario.focus({ preventScroll: true });
     vista.hidden = true;
     panel.removeAttribute('data-dialogo');
-    panel.classList.remove('mb-5');
+    panel.classList.remove('mb-5', 'position-fixed', 'z-2');
     panel.setAttribute('aria-labelledby', tituloOriginal);
     texto.parentElement.replaceChildren(texto);
     texto.textContent = anuncio.textContent = nombre.textContent = '';
@@ -168,10 +173,11 @@
     vista.hidden = false;
     nombre.textContent = hablante;
     boton.hidden = !partes.length;
-    panel.classList.add('mb-5');
+    panel.classList.add('mb-5', 'position-fixed', 'z-2');
     panel.setAttribute('data-dialogo', '');
     panel.setAttribute('aria-labelledby', nombre.id);
-    panel.showModal();
+    panel.show();
+    escenario.inert = true;
     eventos = new AbortController();
     const opciones = { signal: eventos.signal };
     boton.addEventListener('click', avanzar, opciones);
@@ -192,6 +198,10 @@
     try {
       const lectura = await obtener();
       if (sesion.aborted || estado !== 'opening') return;
+      if (!lectura) {
+        finalizar();
+        return;
+      }
       const partes = separarParrafos(lectura.texto);
       if (!partes.length) throw new Error('El contenido del diálogo está vacío.');
       presentar(lectura.hablante, partes);
@@ -202,5 +212,5 @@
     }
   }
 
-  window.BitacoraXPDialogo = Object.freeze({ abrir, avanzar, cerrar, get estado() { return estado; } });
+  window.BitacoraXPDialogo = Object.freeze({ abrir, avanzar, cerrar, cancelar: finalizar, get estado() { return estado; } });
 }());
