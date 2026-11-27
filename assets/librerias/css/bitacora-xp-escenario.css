@@ -32,7 +32,6 @@ body {
 #bitacora-xp-lectura h2 { font-size: 32px; }
 #bitacora-xp-lectura h3 { font-size: 24px; }
 #bitacora-xp-lectura small { font-size: 16px; }
-#diario-encabezado { overflow-wrap: anywhere; }
 
 #bitacora-xp-lectura[data-dialogo] {
 	--ancho-mapa: var(--bitacora-ancho-canvas, 100vw);

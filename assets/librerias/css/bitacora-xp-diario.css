@@ -1,0 +1,28 @@
+#bitacora-xp-lectura[data-diario] {
+	--margen-diario: clamp(12px, 3vmin, 32px);
+	--barra-wp: var(--wp-admin--admin-bar--height, 0px);
+	position: fixed;
+	inset: var(--barra-wp) 0 0;
+	margin: auto;
+	box-sizing: border-box;
+	width: 1146px;
+	height: 732px;
+	max-width: calc(100% - 2 * var(--margen-diario));
+	max-height: calc(100dvh - var(--barra-wp) - 2 * var(--margen-diario));
+	border: 4px solid #182f38;
+	border-radius: 0 !important; /* La plantilla compartida utiliza .rounded. */
+	background-color: #f5efda;
+	box-shadow:
+		inset 0 0 0 3px #6c6554,
+		inset 0 0 0 8px #c5b995,
+		inset 0 -11px 0 #c5b995,
+		7px 7px 0 rgb(19 45 54 / 42%);
+}
+
+#bitacora-xp-lectura[data-diario]::backdrop {
+	background-color: rgb(24 47 56 / 55%);
+}
+
+#bitacora-xp-lectura[data-diario] #diario-encabezado {
+	overflow-wrap: anywhere;
+}

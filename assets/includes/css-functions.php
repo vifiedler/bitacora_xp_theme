@@ -12,6 +12,7 @@ function bitacora_xp_cargar_css()
     $directorio = get_template_directory();
     $general = '/assets/librerias/css/general.css';
     $escenario = '/assets/librerias/css/bitacora-xp-escenario.css';
+    $diario = '/assets/librerias/css/bitacora-xp-diario.css';
 
     wp_register_style('bitacora-xp-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css', array(), '5.3.9', 'all');
     wp_register_style('bitacora-xp-iconos', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css', array(), '1.13.2', 'all');
@@ -24,6 +25,7 @@ function bitacora_xp_cargar_css()
     wp_enqueue_style('bitacora-xp-general');
     if (bitacora_xp_mundo_actual()) {
         wp_enqueue_style('bitacora-xp-escenario');
+        wp_enqueue_style('bitacora-xp-diario', $uri . $diario, array('bitacora-xp-escenario'), (string) filemtime($directorio . $diario), 'all');
     }
 }
 add_action('wp_enqueue_scripts', 'bitacora_xp_cargar_css', 5);

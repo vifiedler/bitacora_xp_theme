@@ -58,6 +58,7 @@
     limpiarAnimacion();
     detenerScroll();
     delete panel.dataset.hito;
+    delete panel.dataset.diario;
     lecturaActual = null;
     tipoLectura = null;
     cerrando = false;
@@ -140,6 +141,7 @@
     titulo.textContent = tituloInicial;
     contenido.textContent = 'Cargando…';
     if (!panel.open) panel.showModal();
+    panel.toggleAttribute('data-diario', tipo === 'diario');
     panel.scrollTop = 0;
     if (tipo === 'hitos' && !movimientoReducido.matches) {
       const { y, duration, ease } = movimiento.apertura;
@@ -158,6 +160,7 @@
       }
     } catch (error) {
       if (turno !== consulta || !panel.open) return;
+      delete panel.dataset.diario;
       lecturaActual = null;
       contenido.textContent = 'No se pudo cargar el contenido. Cierra y vuelve a intentarlo.';
       console.error('[Bitácora XP] Error de lectura:', error);
@@ -171,6 +174,7 @@
   function interactuar(capa, codigo, mundo) {
     if (panel.open) return;
     if (capa === 'npc' || capa === 'descubrimientos') {
+      delete panel.dataset.diario;
       ++consulta;
       BitacoraXPDialogo.abrir(capa === 'npc' ? 'Personaje' : 'Descubrimiento', async () => {
         if (capa === 'npc') {
