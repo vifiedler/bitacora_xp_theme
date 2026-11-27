@@ -12,6 +12,15 @@ body {
 	background-color: #9acda9;
 }
 
+#bitacora-xp-panel-controles {
+	top: var(--wp-admin--admin-bar--height, 0px);
+}
+
+#bitacora-xp-panel-controles > section {
+	min-width: 0;
+	max-height: calc(50dvh - var(--wp-admin--admin-bar--height, 0px));
+}
+
 #bitacora-xp-escenario canvas {
 	display: block;
 	image-rendering: pixelated;

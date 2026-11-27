@@ -131,6 +131,14 @@ function bitacora_xp_cargar_js() {
             (string) filemtime( get_template_directory() . $ruta_etiquetas ),
             true
         );
+        $ruta_controles = '/assets/librerias/js/bitacora-xp-controles.js';
+        wp_enqueue_script(
+            'bitacora-xp-controles',
+            get_template_directory_uri() . $ruta_controles,
+            array(),
+            (string) filemtime( get_template_directory() . $ruta_controles ),
+            true
+        );
         $ruta_escenario = '/assets/librerias/js/bitacora-xp-escenario.js';
         wp_enqueue_script(
             'bitacora-xp-escenario',
