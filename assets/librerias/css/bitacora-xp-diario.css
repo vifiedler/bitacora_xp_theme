@@ -30,6 +30,34 @@
 
 #bitacora-xp-lectura[data-diario] > .contenido-lectura {
 	overflow: auto;
+	flex: 1;
+	display: flex;
+	margin: -1rem calc(8px - 1rem) calc(11px - 1rem);
+}
+
+#bitacora-xp-lectura[data-diario] .diario-interior {
+	flex: 1;
+	min-width: 0;
+	background: #f5efda;
+	color: #182f38;
+}
+
+#bitacora-xp-lectura[data-diario] .diario-indice {
+	padding: clamp(8px, 2vw, 30px) clamp(4px, 1.25vw, 16px);
+	background: #e7dfc4;
+	overflow: auto;
+}
+
+#bitacora-xp-lectura[data-diario] .diario-contenido {
+	min-width: 0;
+	overflow-wrap: anywhere;
+	border-left: 6px solid #bfaf88;
+	box-shadow: inset 3px 0 #fff8e2;
+	padding: clamp(8px, 2.2vw, 32px);
+}
+
+@media (min-width: 576px) {
+	#bitacora-xp-lectura[data-diario] .diario-indice { width: 25.94%; }
 }
 
 #bitacora-xp-lectura[data-diario] .diario-cabecera {

@@ -35,19 +35,21 @@ $mapas = bitacora_xp_mapas();
 	</section>
 </dialog>
 <template id="bitacora-xp-plantilla-diario">
-	<section aria-labelledby="diario-encabezado">
+	<section class="diario-interior row g-0 flex-nowrap" aria-labelledby="diario-encabezado">
 		<?php $pestanas = array( 'total' => 'Total', 'gachavault' => 'GachaVault', 'sinapsis' => 'SINAPSIS', 'entre-versos' => 'Entre Versos' ); ?>
-		<div class="nav nav-tabs flex-wrap" role="tablist" aria-label="Progreso de exploración">
+		<nav class="diario-indice col-5 col-sm-3" aria-label="Índice del diario">
+			<div class="nav nav-tabs flex-column" role="tablist" aria-orientation="vertical" aria-label="Progreso de exploración">
+				<?php foreach ( $pestanas as $slug => $nombre ) : ?>
+					<button type="button" class="nav-link px-2<?php echo 'total' === $slug ? ' active' : ''; ?>" id="tab-<?php echo esc_attr( $slug ); ?>" data-bs-toggle="tab" data-bs-target="#diario-<?php echo esc_attr( $slug ); ?>" role="tab" aria-controls="diario-<?php echo esc_attr( $slug ); ?>" aria-selected="<?php echo 'total' === $slug ? 'true' : 'false'; ?>"><?php echo esc_html( $nombre ); ?></button>
+				<?php endforeach; ?>
+			</div>
+		</nav>
+		<div class="diario-contenido tab-content col overflow-auto">
 			<?php foreach ( $pestanas as $slug => $nombre ) : ?>
-				<button type="button" class="nav-link px-2<?php echo 'total' === $slug ? ' active' : ''; ?>" id="tab-<?php echo esc_attr( $slug ); ?>" data-bs-toggle="tab" data-bs-target="#diario-<?php echo esc_attr( $slug ); ?>" role="tab" aria-controls="diario-<?php echo esc_attr( $slug ); ?>" aria-selected="<?php echo 'total' === $slug ? 'true' : 'false'; ?>"><?php echo esc_html( $nombre ); ?></button>
-			<?php endforeach; ?>
-		</div>
-		<div class="tab-content pt-3">
-			<?php foreach ( $pestanas as $slug => $nombre ) : ?>
-				<div class="tab-pane<?php echo 'total' === $slug ? ' active show' : ''; ?>" role="tabpanel" tabindex="0" id="diario-<?php echo esc_attr( $slug ); ?>" aria-labelledby="tab-<?php echo esc_attr( $slug ); ?>" data-mundo="<?php echo esc_attr( $slug ); ?>">
+				<section class="tab-pane<?php echo 'total' === $slug ? ' active show' : ''; ?>" role="tabpanel" tabindex="0" id="diario-<?php echo esc_attr( $slug ); ?>" aria-labelledby="tab-<?php echo esc_attr( $slug ); ?>" data-mundo="<?php echo esc_attr( $slug ); ?>">
 					<p class="mb-1"></p>
 					<div class="progress mb-3" role="progressbar" aria-label="Exploración de <?php echo esc_attr( $nombre ); ?>" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar bg-success"></div></div>
-				</div>
+				</section>
 			<?php endforeach; ?>
 		</div>
 	</section>
