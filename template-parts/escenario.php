@@ -65,7 +65,7 @@ $mapas = bitacora_xp_mapas();
             </div>
         </nav>
 
-        <div class="diario-contenido tab-content col overflow-auto">
+        <div class="diario-contenido tab-content col">
             <?php foreach ( $pestanas as $slug => $nombre ) : ?>
                 <section
                     class="tab-pane<?php echo $pestana_inicial === $slug ? ' active show' : ''; ?>"
@@ -73,11 +73,14 @@ $mapas = bitacora_xp_mapas();
                     role="tabpanel"
                     aria-labelledby="tab-<?php echo esc_attr( $slug ); ?>"
                     data-mundo="<?php echo esc_attr( $slug ); ?>"
-                    tabindex="0"
                 >
                     <h3 class="diario-titulo-panel mb-3"><?php echo esc_html( $nombre ); ?></h3>
-                    <p class="mb-1"></p>
+                    <div class="diario-contadores d-flex justify-content-between align-items-center gap-2 mb-3">
+                        <p class="mb-0"></p>
+                        <output class="fw-bold text-nowrap" for="diario-progreso-<?php echo esc_attr( $slug ); ?>" aria-label="Porcentaje de descubrimientos"></output>
+                    </div>
                     <div
+                        id="diario-progreso-<?php echo esc_attr( $slug ); ?>"
                         class="progress mb-3"
                         role="progressbar"
                         aria-label="Exploración de <?php echo esc_attr( $nombre ); ?>"
@@ -87,6 +90,8 @@ $mapas = bitacora_xp_mapas();
                     >
                         <div class="progress-bar bg-success"></div>
                     </div>
+                    <section class="diario-listas" tabindex="0"
+                        aria-label="Lista de descubrimientos: <?php echo esc_attr( $nombre ); ?>"></section>
                 </section>
             <?php endforeach; ?>
         </div>

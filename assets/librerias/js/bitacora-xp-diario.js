@@ -22,23 +22,29 @@
   function actualizar() {
     if (!vista) return;
     for (const panel of vista.querySelectorAll('.tab-pane')) {
-      const filas = panel.querySelectorAll('details');
+      const filas = panel.querySelectorAll('li[data-codigo]');
       let cantidad = 0;
       for (const fila of filas) {
         const encontrado = encontrados.has(fila.dataset.codigo);
-        if (encontrado) cantidad++;
-        fila.classList.toggle('bg-success', encontrado);
-        fila.classList.toggle('text-white', encontrado);
-        const estado = encontrado ? 'Descubierto' : 'Pendiente';
-        const marca = fila.querySelector('small');
-        if (marca.textContent !== estado) marca.textContent = estado;
+        if (encontrado) {
+          cantidad++;
+          if (!fila.querySelector('.diario-encontrado')) {
+            const entrada = catalogo.find(dato => dato.codigo === fila.dataset.codigo);
+            fila.replaceChildren(tarjetaDescubrimiento(panel, entrada));
+          }
+        } else if (!fila.firstElementChild) {
+          fila.append(tarjetaDescubrimiento(panel));
+        }
       }
       const porcentaje = filas.length ? cantidad * 100 / filas.length : 0;
-      const resumen = cantidad + ' / ' + filas.length + ' descubrimientos · ' + Math.round(porcentaje) + ' %';
-      panel.querySelector('p').textContent = resumen;
+      const cantidadTexto = cantidad + ' de ' + filas.length + ' descubrimientos';
+      const porcentajeTexto = Math.round(porcentaje) + ' %';
+      const contadores = panel.querySelector('.diario-contadores');
+      contadores.querySelector('p').textContent = cantidadTexto;
+      contadores.querySelector('output').value = porcentajeTexto;
       const barra = panel.querySelector('[role="progressbar"]');
       barra.setAttribute('aria-valuenow', porcentaje);
-      barra.setAttribute('aria-valuetext', resumen);
+      barra.setAttribute('aria-valuetext', cantidadTexto + ' · ' + porcentajeTexto);
       barra.firstElementChild.style.width = porcentaje + '%';
     }
   }
@@ -57,19 +63,43 @@
     actualizar();
   }
 
-  function detalle(entrada) {
+  function tarjetaDescubrimiento(panel, entrada) {
+    const tarjeta = document.createElement('article');
+    tarjeta.className = entrada ? 'diario-encontrado' : 'diario-pendiente';
+    const marca = document.createElement('i');
+    marca.className = entrada ? 'bi bi-check-lg' : 'bi bi-question';
+    marca.setAttribute('aria-hidden', 'true');
+    const titulo = document.createElement(panel.id === 'diario-total' ? 'h5' : 'h4');
+    const avance = document.createElement('p');
+    avance.className = 'mb-0';
+    if (!entrada) {
+      titulo.className = 'diario-titulo-descubrimiento mb-0';
+      titulo.textContent = 'Sin descubrir';
+      avance.textContent = 'Explora este mundo para encontrarlo';
+      tarjeta.append(marca, titulo, avance);
+      return tarjeta;
+    }
+
     const fila = document.createElement('details');
-    fila.className = 'list-group-item text-break';
-    fila.dataset.codigo = entrada.codigo;
-    const titulo = document.createElement('summary');
+    fila.className = 'text-break';
+    const resumen = document.createElement('summary');
+    titulo.className = 'diario-titulo-descubrimiento d-flex flex-wrap justify-content-between align-items-baseline gap-1 mb-0';
+    const nombre = document.createElement('span');
+    nombre.textContent = entrada.titulo;
     const estado = document.createElement('small');
-    estado.className = 'ms-2';
-    titulo.append(entrada.titulo, estado);
+    estado.textContent = 'Descubierto';
+    estado.className = 'ms-auto';
+    titulo.append(nombre, estado);
+    resumen.append(titulo);
+    const contenido = entrada.contenido;
     const texto = document.createElement('p');
     texto.className = 'mt-2 mb-0';
-    texto.textContent = entrada.contenido;
-    fila.append(titulo, texto);
-    return fila;
+    texto.textContent = contenido;
+    fila.append(resumen, texto);
+    avance.textContent = contenido.match(/^[\s\S]*?[.!?](?=\s|$)/)?.[0] || contenido;
+
+    tarjeta.append(marca, fila, avance);
+    return tarjeta;
   }
 
   async function leer() {
@@ -77,14 +107,17 @@
     if (catalogo !== descubrimientos) {
       catalogo = descubrimientos;
       vista = document.querySelector('#bitacora-xp-plantilla-diario').content.firstElementChild.cloneNode(true);
-      const total = vista.querySelector('#diario-total');
+      const total = vista.querySelector('#diario-total .diario-listas');
       for (const panel of vista.querySelectorAll('.tab-pane:not(#diario-total)')) {
-        const lista = document.createElement('div');
-        lista.className = 'list-group mb-3';
+        const lista = document.createElement('ul');
+        lista.className = 'list-group list-unstyled mb-3';
         for (const entrada of catalogo) {
-          if (entrada.mundo === panel.dataset.mundo) lista.append(detalle(entrada));
+          if (entrada.mundo !== panel.dataset.mundo) continue;
+          const item = document.createElement('li');
+          item.dataset.codigo = entrada.codigo;
+          lista.append(item);
         }
-        panel.append(lista);
+        panel.querySelector('.diario-listas').append(lista);
         const nombre = document.createElement('h4');
         nombre.className = 'h6';
         nombre.textContent = vista.querySelector('#' + panel.getAttribute('aria-labelledby')).textContent;
